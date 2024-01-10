@@ -6,7 +6,8 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 // import heroImage from '../../public/blog-placeholder-about.jpg';
 const heroImage = "/hero-image.jpg";
 import { CarouselHome } from "@/components/ui/carouselHome"
-import { Button } from "@/components/ui/button"
+// import PartnersMap from '@/components/PartnersMap.tsx';
+import PartnersMap from '@/components/PartnersMap.astro';
 ---
 
 <!doctype html>
@@ -44,20 +45,21 @@ import { Button } from "@/components/ui/button"
 					</div>
 				</div>
 			</section>
-			<div class="w-full p-16 mt-24">
-				<div class="flex items-center justify-center">
-					<CarouselHome client:visible/>
+			<div class="w-full p-16 space-y-40">
+				<div>
+					<h2 class="text-4xl font-semibold text-center mb-8 text-gray-800 tracking-wide leading-relaxed">
+						Trending Products
+					</h2>
+					<div class="flex items-center justify-center p-4 mb-8">
+						<CarouselHome client:visible/>
+					</div>
 				</div>
-				<p>
-					Morbi tristique senectus et netus. Id semper risus in hendrerit gravida rutrum quisque non
-					tellus. Habitasse platea dictumst quisque sagittis purus sit amet. Tellus molestie nunc non
-					blandit massa. Cursus vitae congue mauris rhoncus. Accumsan tortor posuere ac ut. Fringilla urna
-					porttitor rhoncus dolor. Elit ullamcorper dignissim cras tincidunt lobortis. In cursus turpis
-					massa tincidunt dui ut ornare lectus. Integer feugiat scelerisque varius morbi enim nunc.
-					Bibendum neque egestas congue quisque egestas diam. Cras ornare arcu dui vivamus arcu felis
-					bibendum. Dignissim suspendisse in est ante in nibh mauris. Sed tempus urna et pharetra pharetra
-					massa massa ultricies mi.
-				</p>
+				<div>
+					<h2 class="text-4xl font-semibold text-center mb-8 text-gray-800 tracking-wide leading-relaxed">
+						Meet our partners
+					</h2>
+					<PartnersMap client:visible/>
+				</div>
 			
 				<p>
 					Mollis nunc sed id semper risus in. Convallis a cras semper auctor neque. Diam sit amet nisl

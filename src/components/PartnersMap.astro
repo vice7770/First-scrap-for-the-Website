@@ -1,0 +1,33 @@
+---
+const georgiaPartnersImage = "/georgia-map-partners.png";
+const mapPin = "map-pin.png";
+---
+
+<div class="relative">
+    <div class="flex items-center justify-center bg-center bg-cover">
+      {georgiaPartnersImage && <img draggable="false" src={georgiaPartnersImage} alt="" />}  
+    </div>
+    <div class="absolute inset-0 z-10 flex items-center justify-center animate-pin"> 
+      {mapPin && <img draggable="false" src={mapPin} alt="" width="32" height="32"/>}  
+    </div>
+    <div class="absolute inset-0 z-10 flex items-center justify-center ml-64 mt-16 animate-pin"> 
+      {mapPin && <img draggable="false" src={mapPin} alt="" width="32" height="32"/>}  
+    </div>
+</div>
+  
+<style>
+  @keyframes pin {
+    0% {
+      transform: translateY(-200px);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  .animate-pin {
+    animation: pin 0.5s ease-out forwards;
+  }
+</style>
