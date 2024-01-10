@@ -31,6 +31,18 @@
 	font-style: normal;
 	font-display: swap;
 }
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.fade-in-halfsec {
+  animation: fadeIn 0.5s ease-in 0.5s forwards;
+}
+.fade-in-onesec {
+  animation: fadeIn 1s ease-in 0.5s forwards;
+}
+
 body {
 	font-family: 'Atkinson', sans-serif;
 	margin: 0;

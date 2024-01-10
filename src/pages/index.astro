@@ -18,7 +18,7 @@ const heroImage = "/hero-image.jpg";
 			<section id="hero">
 				<div class="relative">
 					<div class="w-full bg-center bg-cover">
-						{heroImage && <img style={{width: '100%', height: 'var(--hero-image-header)'}} src={heroImage} alt="" />}
+						{heroImage && <img draggable="false" style={{width: '100%', height: 'var(--hero-image-header)'}} src={heroImage} alt="" />}
 					</div>
 					<div class="absolute inset-0 z-10 flex flex-col items-center justify-start w-1/3 px-4 ml-40"> 
 						<div class="dp-shadow mb-12 text-left md:mb-0 md:mt-20">
