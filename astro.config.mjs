@@ -11,8 +11,10 @@ import react from "@astrojs/react";
 export default defineConfig({
   site: 'https://example.com',
   integrations: [tailwind({
-    config: {
-      applyBaseStyles: false
-    }
-  }), mdx(), sitemap(), react()]
+      config: {
+        applyBaseStyles: false
+      }
+    }), 
+    mdx(), sitemap(), react()
+  ]
 });

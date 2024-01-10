@@ -5,6 +5,8 @@ import Footer from '../components/Footer.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 // import heroImage from '../../public/blog-placeholder-about.jpg';
 const heroImage = "/hero-image.jpg";
+import { CarouselHome } from "@/components/ui/carouselHome"
+import { Button } from "@/components/ui/button"
 ---
 
 <!doctype html>
@@ -43,16 +45,9 @@ const heroImage = "/hero-image.jpg";
 				</div>
 			</section>
 			<div class="w-full p-16 mt-24">
-				<p>
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-					labore et dolore magna aliqua. Vitae ultricies leo integer malesuada nunc vel risus commodo
-					viverra. Adipiscing enim eu turpis egestas pretium. Euismod elementum nisi quis eleifend quam
-					adipiscing. In hac habitasse platea dictumst vestibulum. Sagittis purus sit amet volutpat. Netus
-					et malesuada fames ac turpis egestas. Eget magna fermentum iaculis eu non diam phasellus
-					vestibulum lorem. Varius sit amet mattis vulputate enim. Habitasse platea dictumst quisque
-					sagittis. Integer quis auctor elit sed vulputate mi. Dictumst quisque sagittis purus sit amet.
-				</p>
-			
+				<div class="flex items-center justify-center">
+					<CarouselHome client:visible/>
+				</div>
 				<p>
 					Morbi tristique senectus et netus. Id semper risus in hendrerit gravida rutrum quisque non
 					tellus. Habitasse platea dictumst quisque sagittis purus sit amet. Tellus molestie nunc non
