@@ -1,12 +1,10 @@
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import { useIntersectionObserver } from '../lib/Hooks/useIntersectionObserver';
 
 const georgiaPartnersImage = "/georgia-map-partners.png";
 const mapPin = "map-pin.png";
 
 const PartnersMap = () => {
-  const [imageLoaded, setImageLoaded] = useState(false);
-  console.log("this is the component");
   const ref = useRef<HTMLDivElement | null>(null)
   const entry = useIntersectionObserver(ref, {
     freezeOnceVisible: true,
