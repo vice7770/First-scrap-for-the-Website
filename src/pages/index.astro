@@ -7,6 +7,7 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 const heroImage = "/hero-image.jpg";
 import { CarouselHome } from "@/components/ui/carouselHome"
 import PartnersMap from  '@/components/PartnersMap.tsx';
+import PartnersPage from '@/components/PartnersPage.astro';
 // import PartnersMap from '@/components/PartnersMap.astro';
 ---
 
@@ -54,13 +55,7 @@ import PartnersMap from  '@/components/PartnersMap.tsx';
 						<CarouselHome client:visible/>
 					</div>
 				</div>
-				<div>
-					<h2 class="text-4xl font-semibold text-center mb-8 text-gray-800 tracking-wide leading-relaxed">
-						Meet our partners
-					</h2>
-					<PartnersMap client:visible/>
-				</div>
-			
+				<PartnersPage client:visible/>
 				<p>
 					Mollis nunc sed id semper risus in. Convallis a cras semper auctor neque. Diam sit amet nisl
 					suscipit. Lacus viverra vitae congue eu consequat ac felis donec. Egestas integer eget aliquet

@@ -250,5 +250,5 @@ hr {
   }
   
   .animate-pin {
-	animation: pin 0.5s ease-out forwards;
+	animation: pin 1s ease-out forwards;
   }
