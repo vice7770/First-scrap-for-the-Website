@@ -9,7 +9,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel"
 
-export function CarouselHome() {
+export function CarouselHomeItem() {
   return (
     <Carousel
       opts={{

@@ -36,5 +36,12 @@ export const partners : Partner[] = [
         logo: '/images/netlify.png',
         x: 27,
         y: 49
+    },
+    {
+        id: 4,
+        name: 'Zugdidi Shop',
+        logo: '/images/netlify.png',
+        x: 27,
+        y: 40
     }
 ];

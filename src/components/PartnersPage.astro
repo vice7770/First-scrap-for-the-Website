@@ -1,5 +1,7 @@
 ---
 import PartnersMap from '../components/PartnersMap';
+import { CarouselHomePartners } from "@/components/ui/carouselHomePartners";
+
 const georgiaPartnersImage = "/georgia-map-partners.png";
 
 ///this component was created to possible load a different image for the partners map depending on the device size (mobile or desktop)
@@ -9,4 +11,7 @@ const georgiaPartnersImage = "/georgia-map-partners.png";
         Meet our partners
     </h2>
     <PartnersMap client:visible georgiaPartnersImage={georgiaPartnersImage}/>
+    <div class="flex items-center justify-center p-4 mb-8">
+        <CarouselHomePartners client:visible/>
+    </div>
 </div>

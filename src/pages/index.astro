@@ -5,8 +5,7 @@ import Footer from '../components/Footer.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 // import heroImage from '../../public/blog-placeholder-about.jpg';
 const heroImage = "/hero-image.jpg";
-import { CarouselHome } from "@/components/ui/carouselHome"
-import PartnersMap from  '@/components/PartnersMap.tsx';
+import { CarouselHomeItem } from "@/components/ui/carouselHomeItems"
 import PartnersPage from '@/components/PartnersPage.astro';
 // import PartnersMap from '@/components/PartnersMap.astro';
 ---
@@ -52,7 +51,7 @@ import PartnersPage from '@/components/PartnersPage.astro';
 						Trending Products
 					</h2>
 					<div class="flex items-center justify-center p-4 mb-8">
-						<CarouselHome client:visible/>
+						<CarouselHomeItem client:visible/>
 					</div>
 				</div>
 				<PartnersPage client:visible/>
@@ -90,4 +89,4 @@ import PartnersPage from '@/components/PartnersPage.astro';
 		</main>
 		<Footer />
 	</body>
-</html>
+</html>@/components/ui/carouselHomeItems
