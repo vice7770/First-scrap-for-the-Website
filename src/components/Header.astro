@@ -2,6 +2,7 @@
 import HeaderLink from './HeaderLink.astro';
 import { SITE_TITLE } from '../consts';
 import CartIcon from './CartIcon.tsx';
+import ProfileButton from './ui/ProfileButton';
 ---
 
 <header>
@@ -28,14 +29,24 @@ import CartIcon from './CartIcon.tsx';
 					></path></svg
 				>
 			</a> -->
-			<CartIcon client:load/>
+			<div class="flex items-center justify-center space-x-8">
+				<CartIcon client:load/>
+				{false ? (
+					<div class="flex items-center justify-center mb-2">
+						<ProfileButton client:load/>
+					</div>
+				  ) : (
+					<a href="/login" class="flex items-center justify-center bg-white text-black font-bold py-2 px-4 rounded-md">
+					  Sign in
+					</a>
+				)}
 		</div>
 	</nav>
 </header>
 <style>
 	header {
 		margin: 0;
-		padding: 0 1em;
+		padding: 0 64px;
 		background: white;
 		box-shadow: 0 2px 8px rgba(var(--black), 5%);
 	}
