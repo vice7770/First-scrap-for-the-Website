@@ -252,3 +252,15 @@ hr {
   .animate-pin {
 	animation: pin 1s ease-out forwards;
   }
+  
+  .pin-image {
+	transition: transform 0.3s ease-in-out;
+  }
+  
+  .pin-image:hover {
+	transform: scale(1.5);
+  }
+
+  .pin-selected {
+	transform: scale(1.5);
+  }
