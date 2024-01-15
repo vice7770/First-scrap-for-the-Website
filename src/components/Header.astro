@@ -36,9 +36,11 @@ import ProfileButton from './ui/ProfileButton';
 						<ProfileButton client:load/>
 					</div>
 				  ) : (
-					<a href="/login" class="flex items-center justify-center bg-white text-black font-bold py-2 px-4 rounded-md">
-					  Sign in
-					</a>
+				  	<button 
+						class="flex items-center justify-center bg-white text-black font-bold py-2 px-4 rounded-md hover:text-gray-500"
+					>
+						<span id="hf_title_signin_membership">Sign In</span>
+					</button>
 				)}
 		</div>
 	</nav>

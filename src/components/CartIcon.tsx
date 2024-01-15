@@ -8,7 +8,7 @@ const CartIcon = () => {
     return (
     <div>
         {/* <button className="relative" on:click={() => openCart()}> */}
-        <button className="relative">
+        <button className="relative bg-white hover:bg-gray-300 rounded-full w-10 h-10">
             <span className="sr-only">Open your cart</span>
             <svg
                 xmlns="http://www.w3.org/2000/svg"
