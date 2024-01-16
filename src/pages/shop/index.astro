@@ -1,12 +1,31 @@
 ---
 import Layout from '../../layouts/MainLayout.astro';
+
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('shop')).sort(
+	(a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf()
+);
 ---
+
 
 <Layout
 	title="Shop"
 	description="Lorem ipsum dolor sit amet"
 >
-	<p>
-		Shop
-	</p>
+	<section>
+		<h2>Shop</h2>
+		<ul>
+			{
+				posts.map((post) => (
+					<li>
+						<a href={`/shop/${post.slug}/`}>
+							<img width={720} height={360} src={post.data.image} alt="" />
+							<h4 class="title">{post.data.title}</h4>
+						</a>
+					</li>
+				))
+			}
+		</ul>
+	</section>
 </Layout>

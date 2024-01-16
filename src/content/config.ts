@@ -21,4 +21,17 @@ const mainLayout = defineCollection({
 	}),
 });
 
-export const collections = { blog, mainLayout };
+const shop = defineCollection({
+	type: 'content',
+	schema: z.object({
+		title: z.string(),
+		description: z.string(),
+		image:z.string(),
+		price: z.number(),
+		available: z.boolean(),
+		pubDate: z.coerce.date(),
+		updatedDate: z.coerce.date().optional(),
+	}),
+});
+
+export const collections = { blog, mainLayout, shop };
