@@ -3,6 +3,12 @@ import HeaderLink from './HeaderLink.astro';
 import { SITE_TITLE } from '../consts';
 import CartIcon from './CartIcon.tsx';
 import ProfileButton from './ui/ProfileButton';
+
+const headerLinks = [
+	{ href: '/', text: 'Home' },
+	{ href: '/shop', text: 'Shop' },
+	{ href: '/about', text: 'About' },
+];
 ---
 
 <header>
@@ -14,10 +20,9 @@ import ProfileButton from './ui/ProfileButton';
 			</a>
 		</div>
 		<div class="internal-links">
-			<HeaderLink href="/">Home</HeaderLink>
-			<HeaderLink href="/blog">Blog</HeaderLink>
-			<HeaderLink href="/about">About</HeaderLink>
-			<HeaderLink href="/shop">Shop</HeaderLink>
+			{headerLinks.map((link) => (
+				<HeaderLink href={link.href}>{link.text}</HeaderLink>
+			))}
 		</div>
 		<div class="social-links">
 			<!-- <a href="https://m.webtoo.ls/@astro" target="_blank">
