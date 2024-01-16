@@ -16,6 +16,7 @@
     "@astrojs/rss": "^4.0.1",
     "@astrojs/sitemap": "^3.0.4",
     "@astrojs/tailwind": "^5.1.0",
+    "@nanostores/persistent": "^0.9.1",
     "@nanostores/react": "^0.7.1",
     "@radix-ui/react-avatar": "^1.0.4",
     "@radix-ui/react-dropdown-menu": "^2.0.6",
