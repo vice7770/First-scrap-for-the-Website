@@ -13,21 +13,23 @@ const posts = (await getCollection('shop')).sort(
 	title="Shop"
 	description="Lorem ipsum dolor sit amet"
 >
-	<section class="p-4">
-		<div class="flex content-center justify-center">
-			<h2 >Shop</h2>
-		</div>
-		<ul class="flex flex-wrap justify-between">
-			{
-				posts.map((post) => (
-					<li class="w-1/3 px-2">
-						<a href={`/shop/${post.slug}/`}>
-							<img class="w-full h-auto" src={post.data.image} alt="" />
-							<h4 class="flex content-center justify-center title p-4">{post.data.title}</h4>
-						</a>
-					</li>
-				))
-			}
-		</ul>
-	</section>
+	<main>
+		<section class="p-4">
+			<div class="flex content-center justify-center">
+				<h2 >Shop</h2>
+			</div>
+			<ul class="flex flex-wrap justify-between">
+				{
+					posts.map((post) => (
+						<li class="w-1/3 px-2">
+							<a href={`/shop/${post.slug}/`}>
+								<img class="w-full h-auto" src={post.data.image} alt="" />
+								<h4 class="flex content-center justify-center title p-4">{post.data.title}</h4>
+							</a>
+						</li>
+					))
+				}
+			</ul>
+		</section>
+	</main>	
 </Layout>
