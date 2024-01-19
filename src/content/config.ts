@@ -24,6 +24,7 @@ const mainLayout = defineCollection({
 const shop = defineCollection({
 	type: 'content',
 	schema: z.object({
+		id: z.number(), // Unique ID
 		title: z.string(),
 		description: z.string(),
 		image:z.string(),

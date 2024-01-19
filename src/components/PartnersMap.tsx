@@ -4,8 +4,8 @@ import { useMeasure } from '../lib/Hooks/useMeasure';
 
 
 import { partners, type Partner } from '@/consts';
-import { $selectedPartner, setSelectedPartner } from '@/stores/PartnerSelected';
 import { useStore } from '@nanostores/react';
+import { $selectedPartner, setSelectedPartner } from '@/stores/partnerSelected';
 
 
 // const georgiaPartnersImage = "/georgia-map-partners.png";

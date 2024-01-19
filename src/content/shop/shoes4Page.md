@@ -1,4 +1,5 @@
 ---
+id: 3
 title: 'Fourth Shoe'
 description: 'Lorem ipsum dolor sit amet'
 image: '/shop/shoes-4.png'
