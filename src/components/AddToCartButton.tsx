@@ -3,7 +3,6 @@ import {Button} from "@/components/ui/button";
 import { addCartItemOffline } from "@/stores/cart";
 
 async function addToCart({id, quantity, price}: {id: string, quantity: number, price: number}) {
-    console.log("Adding to cart...");
     addCartItemOffline({
         id: id,
         price: price,

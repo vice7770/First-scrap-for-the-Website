@@ -3,7 +3,6 @@ import {Button} from "@/components/ui/button";
 import { removeCartItemsOffline } from "@/stores/cart";
 
 async function removeFromCart({id}: {id: string}) {
-    console.log("Adding to cart...");
     removeCartItemsOffline(id);
 }
 
