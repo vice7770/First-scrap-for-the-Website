@@ -1,6 +1,7 @@
 import type { z } from "zod";
 import { atom } from "nanostores";
 import { persistentAtom } from "@nanostores/persistent";
+import { v4 as uuidv4 } from "uuid";
 // import {
 //   getCart,
 //   addCartLines,
@@ -44,7 +45,7 @@ export async function initCart() {
   if (!sessionStarted) {
     sessionStorage.setItem("sessionStarted", "true");
     const localCart = cart.get();
-    const cartId = localCart?.id;
+    const cartId = localCart?.id ? localCart.id : null;
     const isUserLoggingIn = false; //placeholder
     if (cartId) {
       // const data = await getCart(cartId);
@@ -128,7 +129,7 @@ export async function addCartItemOffline(item: { id: string; quantity: number, p
   isCartUpdating.set(true);
 
   const localCart = cart.get();
-  const cartId = localCart?.id || "1234567890"; // Replace with uuidv4() for unique id
+  const cartId = localCart?.id || uuidv4(); // Replace with uuidv4() for unique id
   const existingQuantity = getExistingQuantity(localCart, item);
   const newQuantity = existingQuantity + item.quantity;
   const nodes = updateNodes(localCart, item, newQuantity);
