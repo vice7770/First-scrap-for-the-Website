@@ -13,6 +13,8 @@ export const CartItemResult = z.object({
     //   totalAmount: MoneyV2Result,
     }),
     quantity: z.number().positive().int(),
+    imageUrl: z.string(),
+    title: z.string(),
   });
 
 export const CartResult = z

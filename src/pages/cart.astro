@@ -1,34 +1,9 @@
 ---
 import Layout from '../layouts/MainLayout.astro';
 import { getCollection } from 'astro:content';
+import SelectedProducts from './selectedProducts';
+import ProductsTotalPrice from './productsTotalPrice';
 
-const imagePlaceholder = '/shop/shoes-1.png';
-
-const productsSelectedExample = [
-    {
-        id: 1,
-        name: 'Product 1',
-        color: 'red',
-        price: 100,
-        quantity: 1,
-    },
-    {
-        id: 2,
-        name: 'Product 2',
-        color: 'blue',
-        price: 120,
-        quantity: 2,
-    },
-    {
-        id: 3,
-        name: 'Product 3',
-        color: 'green',
-        price: 150,
-        quantity: 3,
-    },
-];
-
-const shippingHandling = 20; // Estimated Shipping & Handling
 ---
 
 <Layout title="Cart" description="Lorem ipsum dolor sit amet">
@@ -36,30 +11,11 @@ const shippingHandling = 20; // Estimated Shipping & Handling
         <div class="flex pr-20 pl-20">
             <div class="w-2/3 p-4">
                 <h2 class="flex justify-center text-2xl mb-4">Cart</h2>
-                {productsSelectedExample.map(product => (
-                    <div class="flex mb-4">
-                        <div class="mr-6">
-                            <img src={imagePlaceholder} draggable="false" alt="" width="236" height="236"  alt="Product" />
-                        </div>
-                        <div class="flex w-full">
-                            <div class=" w-3/4">
-                                <h3 class="text-xl">{product.name}</h3>
-                                {product.color && <p>Color: {product.color}</p>}
-                                <p>Quantity: {product.quantity}</p>
-                            </div>
-                            <div class="w-1/4 ">
-                                <p>${product.price * product.quantity}</p>
-                                <button class="bg-red-500 text-white px-2 py-1 rounded">Remove</button>
-                            </div>
-                        </div>
-                    </div>
-                ))}
+                <SelectedProducts client:only/>
             </div>
             <div class="w-1/3 p-4">
                 <h2 class="flex justify-start text-2xl mb-4">Summary</h2>
-                <p>Subtotal: ${productsSelectedExample.reduce((total, product) => total + product.price * product.quantity, 0)}</p>
-                <p>Estimated Shipping & Handling: ${shippingHandling}</p>
-                <p>Total: ${productsSelectedExample.reduce((total, product) => total + product.price * product.quantity, 0) + shippingHandling}</p>
+                <ProductsTotalPrice client:only/>
                 <button class="bg-blue-500 text-white px-4 py-2 rounded mt-4">Checkout</button>
             </div>
         </div>

@@ -124,7 +124,7 @@ export async function initCart() {
 //   }
 // }
 
-export async function addCartItemOffline(item: { id: string; quantity: number, price: number}) {
+export async function addCartItemOffline(item: { id: string; quantity: number, price: number, imageUrl: string, title: string}) {
   isCartUpdating.set(true);
 
   const localCart = cart.get();
@@ -132,8 +132,8 @@ export async function addCartItemOffline(item: { id: string; quantity: number, p
   const existingQuantity = getExistingQuantity(localCart, item);
   const newQuantity = existingQuantity + item.quantity;
   const nodes = updateNodes(localCart, item, newQuantity);
-  const subtotalAmount = calculateSubtotalAmount(localCart, item);
-  const totalQuantity = calculateTotalQuantity(localCart, item);
+  const subtotalAmount = addSubtotalAmount(localCart, item);
+  const totalQuantity = addTotalQuantity(localCart, item);
 
   cart.set({
     ...localCart,
@@ -185,14 +185,24 @@ export async function removeCartItemsOffline(lineId: string) {
 
   if (localCart) {
     // Filter out the item with the given id
+    const item = localCart.lines.nodes.find((item: { id: string; }) => item.id === lineId);
     const newNodes = localCart.lines.nodes.filter((item: { id: string; }) => item.id !== lineId);
-
+    const subtotalAmount = subtractSubtotalAmount(localCart, item);
+    const totalQuantity = subtractTotalQuantity(localCart, item);
     // Update the cart
     cart.set({
       ...localCart,
+      cost: {
+        subtotalAmount: {
+          amount: subtotalAmount,
+          currencyCode: "USD",
+        },
+      },
+      totalQuantity: totalQuantity,
       lines: {
         nodes: newNodes,
       },
+      
     });
 
     isCartUpdating.set(false);
@@ -230,10 +240,12 @@ function createNode(item: any, quantity: number) {
       },
     },
     quantity: quantity,
+    imageUrl: item.imageUrl,
+    title: item.title,
   };
 }
 
-function calculateSubtotalAmount(localCart: any, item: any) {
+function addSubtotalAmount(localCart: any, item: any) {
   return localCart?.cost.subtotalAmount.amount
     ? (
         parseInt(localCart?.cost.subtotalAmount.amount) +
@@ -242,8 +254,16 @@ function calculateSubtotalAmount(localCart: any, item: any) {
     : (item.price * item.quantity).toString();
 }
 
-function calculateTotalQuantity(localCart: any, item: any) {
+function subtractSubtotalAmount(localCart: any, item: any) {
+  return (parseInt(localCart?.cost.subtotalAmount.amount) - item.cost.subtotalAmount.amount).toString();
+}
+
+function addTotalQuantity(localCart: any, item: any) {
   return localCart?.totalQuantity
     ? localCart?.totalQuantity + item.quantity
     : item.quantity;
+}
+
+function subtractTotalQuantity(localCart: any, item: any) {
+  return (localCart?.totalQuantity - item.quantity);
 }

@@ -33,7 +33,7 @@ const { id, title, description, pubDate, updatedDate, image, available, price } 
 				<p class="text-lg mb-4">${price}</p>
 				<p class={available ? "text-green-500 mb-4" : "text-red-500"}>{available ? 'In Stock' : 'Out of Stock'}</p>
 				<!-- <button class="bg-blue-500 text-white px-4 py-2 rounded mb-2" @click={handleClick}>Add to Cart</button> -->
-				<AddToCartButton client:load id={id.toString()} quantity={1} price={price} />
+				<AddToCartButton client:only id={id.toString()} quantity={1} price={price} imageUrl={image} title={title} />
 				<button class="bg-red-500 text-white px-4 py-2 rounded">Add to Favorites</button>
 			</div>
 		</main>
