@@ -5,7 +5,6 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import AddToCartButton from '../components/AddToCartButton.tsx';
-import RemoveFromCartButton from '@/components/RemoveFromCartButton';
 
 type Props = CollectionEntry<'shop'>['data'];
 
@@ -21,7 +20,7 @@ const { id, title, description, pubDate, updatedDate, image, available, price } 
 	<body>
 		<Header />
 		<main class="flex">
-			<div class="w-1/2">
+			<div class="w-1/2 h-[960px]">
 				{image && <img class="w-full h-auto" src={image} alt="" />}
 			</div>
 			<div class="w-1/2 p-4">
@@ -33,7 +32,7 @@ const { id, title, description, pubDate, updatedDate, image, available, price } 
 				<p class="text-lg mb-4">${price}</p>
 				<p class={available ? "text-green-500 mb-4" : "text-red-500"}>{available ? 'In Stock' : 'Out of Stock'}</p>
 				<!-- <button class="bg-blue-500 text-white px-4 py-2 rounded mb-2" @click={handleClick}>Add to Cart</button> -->
-				<AddToCartButton client:only id={id.toString()} quantity={1} price={price} imageUrl={image} title={title} />
+				<AddToCartButton client:load id={id.toString()} quantity={1} price={price} imageUrl={image} title={title} />
 				<button class="bg-red-500 text-white px-4 py-2 rounded">Add to Favorites</button>
 			</div>
 		</main>

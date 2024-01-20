@@ -2,11 +2,45 @@ import React, { useState, useEffect } from "react";
 import { cart } from "@/stores/cart";
 import { useStore } from "@nanostores/react";
 import RemoveFromCartButton from "@/components/RemoveFromCartButton";
+import { Skeleton } from "@/components/ui/skeleton";
 
+const SkeletonComponent = () => {
+    return (
+        <div className="flex mb-4">
+            <div className="mr-6">
+                <Skeleton className="w-36 h-36"/>
+            </div>
+            <div className="flex w-full">
+                <div className=" w-3/4">
+                    <Skeleton className="w-36 h-6 mb-4"/>
+                    <Skeleton className="w-24 h-4 mb-4"/>
+                    <Skeleton className="w-24 h-4 mb-4"/>
+                </div>
+                <div className="w-1/4 ">
+                    <Skeleton className="w-24 h-6 mb-4"/>
+                </div>
+            </div>
+        </div>
+    )
+}
 
 export default function SelectedProducts() {
+    const [isLoading, setIsLoading] = useState(true);
     const $cart = useStore(cart);
     const selectedProducts = $cart ? $cart.lines.nodes : [];
+
+    useEffect(() => {
+        setIsLoading(false);
+    }, []);
+
+    if (isLoading) {
+        return (
+            Array.from({ length: 5 }).map((_, index) => (
+                <SkeletonComponent key={index} />
+            ))
+        )
+    }
+
     return (
         selectedProducts.map(product => (
             <div className="flex mb-4">
