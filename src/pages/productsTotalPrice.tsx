@@ -6,7 +6,6 @@ import { useStore } from "@nanostores/react";
 export default function ProductsTotalPrice() {
     const $cart = useStore(cart);
     const totalAmount = $cart ? $cart.cost.subtotalAmount.amount : 0;
-    console.log($cart);
     const shippingHandling = 10;
     return(
         <>
