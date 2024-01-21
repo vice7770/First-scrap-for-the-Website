@@ -9,6 +9,20 @@ const headerLinks = [
 	{ href: '/shop', text: 'Shop' },
 	{ href: '/about', text: 'About' },
 ];
+
+import { supabase } from "../lib/supabase";
+
+const { cookies, redirect } = Astro;
+
+const accessToken = cookies.get("sb-access-token");
+const refreshToken = cookies.get("sb-refresh-token");
+
+const { data, error } = await supabase.auth.setSession({
+  refresh_token: refreshToken?.value ?? "",
+  access_token: accessToken?.value ?? "",
+});
+
+const email = data?.user?.email;
 ---
 
 <header>
@@ -36,7 +50,7 @@ const headerLinks = [
 			</a> -->
 			<div class="flex items-center justify-center space-x-8">
 				<CartIcon client:load/>
-				{false ? (
+				{email ? (
 					<div class="flex items-center justify-center mb-2">
 						<ProfileButton client:load/>
 					</div>
