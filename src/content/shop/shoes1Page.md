@@ -9,4 +9,3 @@ pubDate: 'Jul 08 2022'
 ---
 
 shoe 1
-
