@@ -1,6 +1,11 @@
 ---
+import type { Code } from "astro:components";
 import Layout from "../layouts/BasicLayout.astro";
 const title = "Sign in";
+
+const { url } = Astro.request;
+const redirectUrl = new URL(url).searchParams.get("redirectUrl");
+const urlToRedirect = "/api/auth/signin?redirectUrl=" + redirectUrl;
 ---
 
 <Layout title={title}>
@@ -20,7 +25,7 @@ const title = "Sign in";
           >
         </p>
         <form
-          action="/api/auth/signin"
+          action={urlToRedirect}
           method="post"
           class="grid grid-cols-1 gap-3 w-full"
         >

@@ -13,7 +13,7 @@ export const SITE_TITLE = 'Astro Blog';
 export const SITE_DESCRIPTION = 'Welcome to my website!';
 
 
-export const SITE_URL = 'https://astro-blog.netlify.app';
+export const SITE_URL = 'http://localhost:4321';
 
 export const partners : Partner[] = [
     {

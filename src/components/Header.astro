@@ -1,6 +1,6 @@
 ---
 import HeaderLink from './HeaderLink.astro';
-import { SITE_TITLE } from '../consts';
+import { SITE_TITLE, SITE_URL } from '../consts';
 import CartIcon from './CartIcon.tsx';
 import ProfileButton from './ui/ProfileButton';
 
@@ -23,6 +23,12 @@ const { data, error } = await supabase.auth.setSession({
 });
 
 const email = data?.user?.email;
+
+const { url } = Astro.request;
+const urlToRedirect = new URL(url).pathname + "/";
+const newUrl = new URL("/signin", SITE_URL);
+newUrl.searchParams.append('redirectUrl', urlToRedirect);
+const signinUrl = newUrl.toString();
 ---
 
 <header>
@@ -55,7 +61,7 @@ const email = data?.user?.email;
 						<ProfileButton client:load/>
 					</div>
 				  ) : (
-					<a href="/signin" class="flex items-center justify-center">
+					<a href={signinUrl} class="flex items-center justify-center">
 						<button 
 							class="flex items-center justify-center bg-white text-black font-bold py-2 px-4 rounded-md hover:text-gray-500"
 						>
