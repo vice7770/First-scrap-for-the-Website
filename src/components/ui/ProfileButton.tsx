@@ -24,7 +24,11 @@ import {
           <DropdownMenuItem className="cursor-pointer">Billing</DropdownMenuItem>
           <DropdownMenuItem className="cursor-pointer">Subscription</DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem className="cursor-pointer">Log Out</DropdownMenuItem>
+          <DropdownMenuItem className="cursor-pointer">
+            <form action="/api/auth/signout">
+              <button type="submit">Sign out</button>
+            </form>
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     );
