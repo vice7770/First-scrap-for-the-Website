@@ -211,7 +211,7 @@ export async function removeCartItemsOffline(lineId: string) {
 }
 
 function getExistingQuantity(localCart: any, item: any) {
-  return localCart?.lines.nodes.find(node => node.id === item.id)?.quantity || 0;
+  return localCart?.lines.nodes.find((node: { id: string; }) => node.id === item.id)?.quantity || 0;
 }
 
 function updateNodes(localCart: any, item: any, newQuantity: number) {

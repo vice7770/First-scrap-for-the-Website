@@ -17,7 +17,7 @@ const { cookies, redirect } = Astro;
 const accessToken = cookies.get("sb-access-token");
 const refreshToken = cookies.get("sb-refresh-token");
 
-const { data, error } = await supabase.auth.setSession({
+const { data } = await supabase.auth.setSession({
   refresh_token: refreshToken?.value ?? "",
   access_token: accessToken?.value ?? "",
 });
