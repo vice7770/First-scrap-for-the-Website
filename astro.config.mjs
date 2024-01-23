@@ -21,7 +21,7 @@ export default defineConfig({
   vite: {
     build: {
       rollupOptions: {
-        external: ['your-external-dependency']
+        external: ['@/stores/partnerSelected']
       }
     }
   }
