@@ -17,7 +17,9 @@ export default defineConfig({
     }
   }), mdx(), sitemap(), react()],
   output: "server",
-  adapter: vercel(),
+  adapter: node({
+    mode: "standalone"
+  }),
   vite: {
     build: {
       rollupOptions: {
