@@ -19,7 +19,7 @@ const refreshToken = cookies.get("sb-refresh-token");
 //   return redirect("/");
 // }
 
-const { data, error } = await supabase.auth.setSession({
+const { data } = await supabase.auth.setSession({
   refresh_token: refreshToken?.value ?? "",
   access_token: accessToken?.value ?? "",
 });
@@ -28,13 +28,14 @@ const { data, error } = await supabase.auth.setSession({
 //   cookies.delete("sb-access-token", {
 //     path: "/",
 //   });
-//   cookies.delete("sb-refresh-token", {
+//   coozkies.delete("sb-refresh-token", {
 //     path: "/",
 //   });
 
 //   return redirect("/");
 // }
 
+export const prerender = true;
 ---
 
 <!doctype html>
