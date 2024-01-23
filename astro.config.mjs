@@ -23,6 +23,11 @@ export default defineConfig({
       rollupOptions: {
         external: ['@/stores/partnerSelected']
       }
+    },
+    resolve: {
+      alias: {
+        '@': '/src'
+      }
     }
   }
 });
