@@ -1,10 +1,5 @@
 // Place any global data in this file.
 // You can import this data from anywhere in your site by using the `import` keyword.
-import dotenv from 'dotenv';
-
-dotenv.config();
-
-export const SITE_URL = process.env.SITE_URL || 'http://localhost:4321';
 
 export type Partner = {
     id: number;
@@ -17,8 +12,8 @@ export type Partner = {
 export const SITE_TITLE = 'Astro Blog';
 export const SITE_DESCRIPTION = 'Welcome to my website!';
 
-// export const SITE_URL = 'http://localhost:4321';
 
+export const SITE_URL = 'http://localhost:4321';
 
 export const partners : Partner[] = [
     {
