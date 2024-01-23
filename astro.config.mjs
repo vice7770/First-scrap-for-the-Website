@@ -17,5 +17,13 @@ export default defineConfig({
     }
   }), mdx(), sitemap(), react()],
   output: "server",
-  adapter: vercel()
+  adapter: vercel(),
+  vite: {
+    build: {
+      rollupOptions: {
+        external: ['your-external-dependency']
+      }
+    }
+  }
 });
+
