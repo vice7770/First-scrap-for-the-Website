@@ -31,7 +31,7 @@ export default defineConfig({
     }
   },
   redirects: {
-    '/shop/[...slug]' : '/shop',
+    '/shop/' : '/shop/[...slug]',
   }
 });
 
