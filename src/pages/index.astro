@@ -6,7 +6,8 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 // import heroImage from '../../public/blog-placeholder-about.jpg';
 const heroImage = "/hero-image.jpg";
 import { CarouselHomeItem } from "@/components/ui/carouselHomeItems"
-import PartnersPage from '@/components/PartnersPage.astro';
+// import PartnersPage from '@/components/PartnersPage_.astro';
+import PartnersSection from '@/components/PartnersSection';
 
 import { supabase } from "../lib/supabase";
 
@@ -81,7 +82,7 @@ const { data } = await supabase.auth.setSession({
 						<CarouselHomeItem client:visible/>
 					</div>
 				</div>
-				<PartnersPage client:visible/>
+				<PartnersSection client:visible/>
 				<p>
 					Mollis nunc sed id semper risus in. Convallis a cras semper auctor neque. Diam sit amet nisl
 					suscipit. Lacus viverra vitae congue eu consequat ac felis donec. Egestas integer eget aliquet
