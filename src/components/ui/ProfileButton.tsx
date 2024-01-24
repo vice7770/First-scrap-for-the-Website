@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -7,8 +8,19 @@ import {
     DropdownMenuTrigger,
   } from "@/components/ui/dropdown-menu";
   import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-  
+
   const ProfileButton = () => {
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        setIsLoading(false);
+    }, []);
+
+    if (isLoading) {
+        return (
+          <img draggable="false" height="40px" width="40px" src="/icons8-male-user-32.png" alt="" />
+        )
+    }
     return (
       <DropdownMenu>
         <DropdownMenuTrigger>
