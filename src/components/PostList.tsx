@@ -12,11 +12,11 @@ function PostList({posts}: {posts: any}) {
         return (
             <ul className="flex flex-wrap justify-between">
             {
-                posts.map((post) => (
-                    <li className="w-1/3 px-2">
-                        <a href={`/shop/${post.slug}/`}>
+                [...Array(6)].map((_, index) => (
+                    <li key={index} className="w-1/3 px-2">
+                        <a href={`/shop/slug/`}>
                             <Skeleton className="w-[613px] h-[613px]"/>
-                            <h4 className="flex content-center justify-center title p-4">{post.data.title}</h4>
+                            <h4 className="flex content-center justify-center title p-4">Title</h4>
                         </a>
                     </li>
                 ))
@@ -27,7 +27,7 @@ function PostList({posts}: {posts: any}) {
     return (
         <ul className="flex flex-wrap justify-between">
             {
-                posts.map((post) => (
+                posts?.map((post) => (
                     <li className="w-1/3 px-2">
                         <a href={`/shop/${post.slug}/`}>
                             <img className="w-full h-auto" height={613} width={613} src={post.data.image} alt="" />
