@@ -63,10 +63,16 @@ const PartnersSection = () => {
 
   if (isLoading) {
       return (
-        <div className="relative">
-          <div className="flex items-center justify-center bg-center bg-cover">
-              {georgiaPartnersImage && <img draggable="false" src={georgiaPartnersImage} alt=""/>}  
+        <div>
+          <h2 className="text-4xl font-semibold text-center text-gray-800 tracking-wide leading-relaxed">
+            Meet our partners
+          </h2>
+          <div className="relative">
+            <div className="flex items-center justify-center bg-center bg-cover">
+                {georgiaPartnersImage && <img draggable="false" src={georgiaPartnersImage} alt=""/>}  
+            </div>
           </div>
+          <div className="flex items-center justify-center h-[350px] p-4 mb-8"/>
         </div>
       )
   }
