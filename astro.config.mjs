@@ -16,7 +16,7 @@ export default defineConfig({
       applyBaseStyles: false
     }
   }), mdx(), sitemap(), react()],
-  output: "server",
+  output: "hybrid",
   adapter: vercel(),
   vite: {
     build: {
@@ -29,6 +29,9 @@ export default defineConfig({
         '@': '/src'
       }
     }
+  },
+  redirects: {
+    '/shop/[...slug]' : '/shop',
   }
 });
 
