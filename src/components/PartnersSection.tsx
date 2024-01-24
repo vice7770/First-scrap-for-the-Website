@@ -1,8 +1,6 @@
 import { useEffect, useState, useRef} from "react";
 import { useStore } from "@nanostores/react";
 
-import { cart } from "@/stores/cart";
-
 import { useIntersectionObserver } from '../lib/Hooks/useIntersectionObserver';
 import { useMeasure } from '../lib/Hooks/useMeasure';
 import { partners, type Partner } from '@/consts';
@@ -55,7 +53,6 @@ const PartnersMap = (props : Props) => {
   }
 
 const PartnersSection = () => {
-  const $cart = useStore(cart);
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     setIsLoading(false);
