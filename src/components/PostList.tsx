@@ -12,11 +12,11 @@ function PostList({posts}: {posts: any}) {
         return (
             <ul className="flex flex-wrap justify-between">
             {
-                [...Array(6)].map((_, index) => (
+                posts?.map((post: any, index: React.Key | null | undefined) => (
                     <li key={index} className="w-1/3 px-2">
-                        <a href={`/shop/slug/`}>
+                        <a href={`/shop/${post.slug}/`}>
                             <Skeleton className="w-[613px] h-[613px]"/>
-                            <h4 className="flex content-center justify-center title p-4">Title</h4>
+                            <h4 className="flex content-center justify-center title p-4">{post.data.title}</h4>
                         </a>
                     </li>
                 ))
