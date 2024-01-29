@@ -3,12 +3,12 @@ import PostList from '@/components/PostList';
 import Layout from '../../layouts/MainLayout.astro';
 
 import { getCollection } from 'astro:content';
+import PostListAstro from '@/components/PostListAstro.astro';
 
 const posts = (await getCollection('shop')).sort(
 	(a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf()
 );
 ---
-
 
 <Layout
 	title="Shop"
@@ -19,7 +19,8 @@ const posts = (await getCollection('shop')).sort(
 			<div class="flex content-center justify-center">
 				<h2 >Shop</h2>
 			</div>
-			<PostList client:load posts={posts} />
+			<!-- <PostList client:load posts={posts} /> -->
+			<PostListAstro posts={posts} />
 		</section>
 	</main>	
 </Layout>
