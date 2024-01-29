@@ -27,8 +27,11 @@ const email = data?.user?.email;
 const { url } = Astro.request;
 const urlToRedirect = new URL(url).pathname + "/";
 const newUrl = new URL("/signin", SITE_URL);
+const newUrlFavorite = new URL("/signin", SITE_URL);
 newUrl.searchParams.append('redirectUrl', urlToRedirect);
 const signinUrl = newUrl.toString();
+newUrlFavorite.searchParams.append('redirectUrl', "/favorites");
+const favoritesUrl = newUrlFavorite.toString();
 ---
 
 <header>
@@ -56,7 +59,7 @@ const signinUrl = newUrl.toString();
 			</a> -->
 			<div class="flex items-center justify-center space-x-8">
 				<div class="mb-1">
-					<a href="/favorites">
+					<a href={email ? "/favorites" : favoritesUrl}>
 						<button class=" bg-white hover:bg-gray-300 rounded-full">
 							<img width="40" height="40" src="https://img.icons8.com/sf-ultralight/50/hearts.png" alt="hearts"/>
 						</button>
