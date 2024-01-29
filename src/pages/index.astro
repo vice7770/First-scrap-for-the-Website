@@ -10,6 +10,7 @@ import { CarouselHomeItem } from "@/components/ui/carouselHomeItems"
 import PartnersSection from '@/components/PartnersSection';
 
 import { supabase } from "../lib/supabase";
+import { ViewTransitions } from 'astro:transitions';
 
 const { cookies, redirect } = Astro;
 
@@ -42,6 +43,7 @@ const { data } = await supabase.auth.setSession({
 <html lang="en">
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+		<ViewTransitions />
 	</head>
 	<body class="flex flex-col min-h-screen">
 		<Header title={SITE_TITLE} />
