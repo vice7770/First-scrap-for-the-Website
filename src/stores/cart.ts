@@ -9,6 +9,7 @@ import { v4 as uuidv4 } from "uuid";
 //   removeCartLines,
 // } from "../utils/shopify";
 import type { CartResult } from "../utils/schemas";
+import { SITE_URL } from "../consts";
 
 // Cart drawer state (open or closed) with initial value (false) and no persistent state (local storage)
 export const isCartDrawerOpen = atom(false);
@@ -24,7 +25,8 @@ const emptyCart = {
   cost: { subtotalAmount: { amount: "", currencyCode: "" } },
 };
 
-const Url = "https://localhost:4321/shop/";
+// const Url = "https://localhost:4321/shop/";
+const Url = SITE_URL + "/shop/";
 
 // Cart store with persistent state (local storage) and initial value
 export const cart = persistentAtom<z.infer<typeof CartResult>>(
