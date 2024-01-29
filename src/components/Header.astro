@@ -11,6 +11,7 @@ const headerLinks = [
 ];
 
 import { supabase } from "../lib/supabase";
+import FavoriteIcon from './FavoriteIcon';
 
 const { cookies, redirect } = Astro;
 
@@ -55,7 +56,12 @@ const signinUrl = newUrl.toString();
 				>
 			</a> -->
 			<div class="flex items-center justify-center space-x-8">
-				<CartIcon client:load/>
+				<div class="flex mb-1">
+					<FavoriteIcon client:load/>
+				</div>
+				<div>
+					<CartIcon client:load/>
+				</div>
 				{email ? (
 					<div class="flex items-center justify-center mb-2">
 						<ProfileButton client:load/>

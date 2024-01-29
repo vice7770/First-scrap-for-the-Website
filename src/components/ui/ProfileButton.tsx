@@ -18,14 +18,14 @@ import {
 
     if (isLoading) {
         return (
-          <img draggable="false" height="40px" width="40px" src="/icons8-male-user-32.png" alt="" />
+          <img width="40" height="40" src="https://img.icons8.com/parakeet-line/96/test-account.png" alt="test-account"/>
         )
     }
     return (
       <DropdownMenu>
         <DropdownMenuTrigger>
           <Avatar>
-            <AvatarImage src="/icons8-male-user-32.png" />
+            <AvatarImage className="bg-white hover:bg-gray-300 rounded-full" src="https://img.icons8.com/parakeet-line/96/test-account.png" />
             <AvatarFallback></AvatarFallback>
           </Avatar>
         </DropdownMenuTrigger>
