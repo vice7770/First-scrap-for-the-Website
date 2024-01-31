@@ -12,7 +12,7 @@ export type Partner = {
 export const SITE_TITLE = 'Astro Blog';
 export const SITE_DESCRIPTION = 'Welcome to my website!';
 
-export const SITE_URL = import.meta.env.MODE === 'development' ? 'http://localhost:4321' : "https://ecommerce-app-cb73-9smgenqnb-vice7770.vercel.app";
+export const SITE_URL = import.meta.env.MODE === 'development' ? 'http://localhost:4321' : "first-scrap-of-ecommerce-website.vercel.app";
 
 // export const SITE_URL = 'http://localhost:4321';
 
