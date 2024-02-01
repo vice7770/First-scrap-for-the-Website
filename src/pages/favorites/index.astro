@@ -1,0 +1,27 @@
+---
+import Layout from '../../layouts/MainLayout.astro';
+
+import { getCollection } from 'astro:content';
+import PostListAstro from '@/components/PostListAstro.astro';
+
+const favoriteIds = [0,3,5];
+
+const posts = (await getCollection('shop')).sort(
+    (a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf()
+);
+const favoritePosts = posts.filter(post => favoriteIds.includes(post.data.id));
+---
+
+<Layout
+	title="Shop"
+	description="Lorem ipsum dolor sit amet"
+>
+	<main>
+		<section class="p-4">
+			<div class="flex content-center justify-center">
+				<h2 >Favorites</h2>
+			</div>
+			<PostListAstro posts={favoritePosts} />
+		</section>
+	</main>	
+</Layout>
