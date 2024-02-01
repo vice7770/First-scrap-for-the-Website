@@ -1,12 +1,12 @@
 ---
 import HeaderLink from './HeaderLink.astro';
 import { SITE_TITLE, SITE_URL } from '../consts';
-import CartIcon from './CartIcon.tsx';
+import CartIcon from './CartIcon';
 import ProfileButton from './ui/ProfileButton';
 
 const headerLinks = [
 	{ href: '/', text: 'Home' },
-	{ href: '/shop/', text: 'Shop' },
+	{ href: '/shop', text: 'Shop' },
 	{ href: '/about', text: 'About' },
 ];
 
@@ -35,19 +35,19 @@ const favoritesUrl = newUrlFavorite.toString();
 ---
 
 <header>
-	<nav>
-		<div class="flex h-max-full">
+	<nav class="w-full grid grid-cols-3 gap-4">
+		<div class="flex justify-start h-max-full ">
 			<a class="flex items-center justify-center p-0 !p-0 " href="/">
 				<span class="sr-only">Georgia</span>
 				<img src="/georgia-flag.png" alt="GeorgiaFlag" width="96" draggable="false"/>
 			</a>
 		</div>
-		<div class="internal-links">
+		<div class="flex justify-center internal-links">
 			{headerLinks.map((link) => (
 				<HeaderLink href={link.href}>{link.text}</HeaderLink>
 			))}
 		</div>
-		<div class="social-links">
+		<div class="flex justify-end social-links">
 			<!-- <a href="https://m.webtoo.ls/@astro" target="_blank">
 				<span class="sr-only">Follow Astro on Mastodon</span>
 				<svg viewBox="0 0 16 16" aria-hidden="true" width="32" height="32"
@@ -81,6 +81,7 @@ const favoritesUrl = newUrlFavorite.toString();
 						</button>
 					</a>
 				)}
+			</div>
 		</div>
 	</nav>
 </header>
@@ -99,11 +100,6 @@ const favoritesUrl = newUrlFavorite.toString();
 	h2 a,
 	h2 a.active {
 		text-decoration: none;
-	}
-	nav {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
 	}
 	nav a {
 		padding: 1em 0.5em;
