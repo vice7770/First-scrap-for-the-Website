@@ -4,7 +4,7 @@ import { useStore } from "@nanostores/react";
 import { useIntersectionObserver } from '../lib/Hooks/useIntersectionObserver';
 import { useMeasure } from '../lib/Hooks/useMeasure';
 import { partners, type Partner } from '@/consts';
-import { $selectedPartner, setSelectedPartner } from '@/stores/partnerSelected';
+import { $selectedPartner, setSelectedPartner } from '../stores/partnerSelected';
 // import { CarouselHomePartners } from "./ui/carouselHomePartners";
 
 
