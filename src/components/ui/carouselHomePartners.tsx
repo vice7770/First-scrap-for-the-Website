@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/carousel"
 
 import { partners, type Partner } from '@/consts';
-import { $selectedPartner, setSelectedPartner } from "@/stores/partnerSelected";
+import { $selectedPartner, setSelectedPartner } from "../../stores/partnerSelected";
 import { useStore } from "@nanostores/react";
 
 export function CarouselHomePartners() {

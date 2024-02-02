@@ -5,7 +5,7 @@ import { useIntersectionObserver } from '../lib/Hooks/useIntersectionObserver';
 import { useMeasure } from '../lib/Hooks/useMeasure';
 import { partners, type Partner } from '@/consts';
 import { $selectedPartner, setSelectedPartner } from '../stores/partnerSelected';
-// import { CarouselHomePartners } from "./ui/carouselHomePartners";
+import { CarouselHomePartners } from "./ui/carouselHomePartners";
 
 
 const georgiaPartnersImage = "/georgia-map-partners.png";
@@ -81,7 +81,7 @@ const PartnersSection = () => {
       </h2>
       <PartnersMap georgiaPartnersImage={georgiaPartnersImage}/>
       <div className="flex items-center justify-center p-4 mb-8">
-        {/* <CarouselHomePartners/> */}
+        <CarouselHomePartners/>
       </div>
     </div>
   )
