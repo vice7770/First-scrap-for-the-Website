@@ -5,7 +5,7 @@ import { useIntersectionObserver } from '../lib/Hooks/useIntersectionObserver';
 import { useMeasure } from '../lib/Hooks/useMeasure';
 import { partners, type Partner } from '@/consts';
 import { $selectedPartner, setSelectedPartner } from '@/stores/partnerSelected';
-import { CarouselHomePartners } from "./ui/carouselHomePartners";
+// import { CarouselHomePartners } from "./ui/carouselHomePartners";
 
 
 const georgiaPartnersImage = "/georgia-map-partners.png";
