@@ -16,7 +16,7 @@ export default defineConfig({
       applyBaseStyles: false
     }
   }), mdx(), sitemap(), react()],
-  output: "hybrid",
+  output: "server",
   adapter: vercel(),
   vite: {
     build: {
