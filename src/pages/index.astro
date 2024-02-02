@@ -34,6 +34,17 @@ const { data } = await supabase.auth.setSession({
 //   return redirect("/");
 // }
 
+import { getCollection } from 'astro:content';
+
+const trendItemsId = [1, 2, 3, 4, 5];
+
+const posts = (await getCollection('shop')).sort(
+    (a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf()
+);
+
+const trendItems = posts.filter((post) => trendItemsId.includes(post.data.id));
+
+
 ---
 
 <Layout>
@@ -65,13 +76,13 @@ const { data } = await supabase.auth.setSession({
 				</div>
 			</div>
 		</section>
-		<div class="w-full p-16 space-y-40">
+		<div class="w-full space-y-40 mt-10">
 			<div>
 				<h2 class="text-4xl font-semibold text-center mb-8 text-gray-800 tracking-wide leading-relaxed">
 					Trending Products
 				</h2>
 				<div class="flex items-center justify-center p-4 mb-8">
-					<CarouselHomeItem client:visible/>
+					<CarouselHomeItem trendItems={trendItems} client:visible/>
 				</div>
 			</div>
 			<PartnersSection client:visible/>

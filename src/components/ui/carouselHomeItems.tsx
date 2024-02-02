@@ -9,30 +9,37 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel"
 
-export function CarouselHomeItem() {
+export function CarouselHomeItem({ trendItems }: { trendItems: any }) {
   return (
     <Carousel
       opts={{
         align: "start",
         loop: true,
       }}
-      className="w-4/5"
+      
     >
       <CarouselContent>
-        {Array.from({ length: 10 }).map((_, index) => (
-          <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/5">
+        {trendItems?.map((item: any, index: React.Key | null | undefined) => (
+          <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/4 border-0">
             <div className="p-1">
-              <Card>
-                <CardContent className="flex aspect-square items-center justify-center p-6 ">
-                  <span className="text-3xl font-semibold">{index + 1}</span>
+              <Card className="rounded-none">
+                <CardContent className="flex aspect-square items-center justify-center p-0 ">
+                <a href={`/shop/${item.slug}/`}>
+                <div className="relative">
+                  <img src={item.data.image} alt={item.data.title} className="w-full" />
+                  <h4 className="absolute top-0 left-0 p-4 bg-transparent text-black flex items-center justify-center">
+                    {item.data.title}
+                  </h4>
+                </div>
+                </a>
                 </CardContent>
               </Card>
             </div>
           </CarouselItem>
         ))}
       </CarouselContent>
-      <CarouselPrevious />
-      <CarouselNext />
+      <CarouselPrevious className="absolute left-4 top-1/2 transform -translate-y-1/2"/>
+      <CarouselNext className="absolute right-4 top-1/2 transform -translate-y-1/2"/>
     </Carousel>
   )
 }
