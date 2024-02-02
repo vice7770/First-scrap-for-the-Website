@@ -81,7 +81,7 @@ const PartnersSection = () => {
       </h2>
       <PartnersMap georgiaPartnersImage={georgiaPartnersImage}/>
       <div className="flex items-center justify-center p-4 mb-8">
-        <CarouselHomePartners/>
+        {/* <CarouselHomePartners/> */}
       </div>
     </div>
   )
