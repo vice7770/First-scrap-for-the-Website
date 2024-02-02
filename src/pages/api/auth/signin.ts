@@ -1,12 +1,18 @@
 import type { APIRoute } from "astro";
 import { supabase } from "../../../lib/supabase";
 import type { Provider } from "@supabase/supabase-js";
+import { SITE_URL } from "@/consts";
 
 export const POST: APIRoute = async ({ request, cookies, redirect }) => {
   const formData = await request.formData();
   const email = formData.get("email")?.toString();
   const password = formData.get("password")?.toString();
   const provider = formData.get("provider")?.toString();
+
+  const url = new URL(request.url);
+  const redirectUrl = url.searchParams.get("redirectUrl");
+
+  const validProviders = ["github", "google", "gitlab"];
 
   if (provider) {
     const { data, error } = await supabase.auth.signInWithOAuth({
@@ -50,5 +56,5 @@ export const POST: APIRoute = async ({ request, cookies, redirect }) => {
     secure: true,
   });
 
-  return redirect("/");
+  return redirect(redirectUrl || "/");
 };
