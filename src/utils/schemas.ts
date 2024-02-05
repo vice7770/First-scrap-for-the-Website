@@ -31,3 +31,6 @@ export const CartResult = z
 })
 .nullable();
 
+export const favoritesResult = z.array(z.number()).nullable();
+
+

@@ -3,13 +3,17 @@ import Layout from '../../layouts/MainLayout.astro';
 
 import { getCollection } from 'astro:content';
 import PostListAstro from '@/components/PostListAstro.astro';
+import { getFavorites } from '@/stores/favorites';
+import FavoritesList from '@/components/FavoritesList';
 
-const favoriteIds = [0,3,5];
+// Need to explore ssr option for this
 
-const posts = (await getCollection('shop')).sort(
-    (a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf()
+// const shopPosts = (await getCollection('shop'));
+
+const favorites = (await getCollection('shop')).sort(
+	(a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf()
 );
-const favoritePosts = posts.filter(post => favoriteIds.includes(post.data.id));
+
 ---
 
 <Layout
@@ -21,7 +25,8 @@ const favoritePosts = posts.filter(post => favoriteIds.includes(post.data.id));
 			<div class="flex content-center justify-center">
 				<h2 >Favorites</h2>
 			</div>
-			<PostListAstro posts={favoritePosts} />
+			<!-- <PostListAstro posts={favoritePosts} /> -->
+			<FavoritesList client:load favorites={favorites} />
 		</section>
 	</main>	
 </Layout>
