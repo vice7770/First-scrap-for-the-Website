@@ -69,9 +69,6 @@ export default function AddToFavoritesButton({ id, isAuth }: { id: number, isAut
     if (!contains) {
       setFavorites(pendingFavorite as number);
     }
-    else {
-      removeFromFavorites(pendingFavorite as number);
-    }
     cleanPendingFavorite();
   }, [favorites]);
 
