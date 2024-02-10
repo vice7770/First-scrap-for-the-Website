@@ -7,10 +7,29 @@ import FormattedDate from '../components/FormattedDate.astro';
 import AddToCartButton from '../components/AddToCartButton.tsx';
 import { ViewTransitions } from 'astro:transitions';
 import AddToFavoritesButton from '@/components/AddToFavoritesButton.tsx';
+import { supabase } from '@/lib/supabase';
 
 type Props = CollectionEntry<'shop'>['data'];
 
 const { id, title, description, pubDate, updatedDate, image, available, price } = Astro.props;
+
+const { cookies, redirect } = Astro;
+
+const accessToken = cookies.get("sb-access-token");
+const refreshToken = cookies.get("sb-refresh-token");
+
+const { data } = await supabase.auth.setSession({
+  refresh_token: refreshToken?.value ?? "",
+  access_token: accessToken?.value ?? "",
+});
+const email = data?.user?.email || '';
+const isAuth = !!email;
+console.log('isAuth', isAuth);
+
+const { url } = Astro.request;
+const newUrl = new URL(url);
+const redirectUrlParam = newUrl.searchParams.get('redirectUrl');
+
 ---
 
 <html lang="en">
@@ -36,7 +55,7 @@ const { id, title, description, pubDate, updatedDate, image, available, price } 
 				<!-- <button class="bg-blue-500 text-white px-4 py-2 rounded mb-2" @click={handleClick}>Add to Cart</button> -->
 				<div class="flex flex-col w-2/3">
 					<AddToCartButton client:load id={id.toString()} quantity={1} price={price} imageUrl={image} title={title} />
-					<AddToFavoritesButton client:load id={id}/>
+					<AddToFavoritesButton client:load id={id} isAuth={isAuth}/>
 				</div>
 			</div>
 		</main>

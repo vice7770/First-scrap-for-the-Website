@@ -22,7 +22,7 @@ const { data } = await supabase.auth.setSession({
   access_token: accessToken?.value ?? "",
 });
 
-const email = data?.user?.email;
+const email = data?.user?.email || '';
 
 const { url } = Astro.request;
 const urlToRedirect = new URL(url).pathname + "/";
@@ -35,7 +35,6 @@ const favoritesUrl = newUrlFavorite.toString();
 
 // export const prerender = false;
 
-console.log("email", email);
 ---
 
 <header>

@@ -1,11 +1,20 @@
 import type { z } from "zod";
 import { atom } from "nanostores";
 import { persistentAtom } from "@nanostores/persistent";
-import type { favoritesResult } from "@/utils/schemas";
+import type { favoritesResult, pendingFavoriteResult } from "@/utils/schemas";
   
 // Favorites store with persistent state (local storage) and initial value
 export const $favorites = persistentAtom<z.infer<typeof favoritesResult>>(
     "favorites",
+    null,
+    {
+      encode: JSON.stringify,
+      decode: JSON.parse,
+    }
+);
+
+export const $pendingFavorite = persistentAtom<z.infer<typeof pendingFavoriteResult>>(
+    "pendingFavorites",
     null,
     {
       encode: JSON.stringify,
@@ -38,4 +47,16 @@ export async function setFavorites(id: number) {
         return;
     }
     $favorites.set([...currentFavorites, id]);  
+}
+
+export async function cleanFavorites() {
+    $favorites.set(null);
+}
+
+export async function addPendingFavorite(id: number) {
+    $pendingFavorite.set(id);
+}
+
+export async function cleanPendingFavorite() {
+    $pendingFavorite.set(null);
 }

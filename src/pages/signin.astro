@@ -3,9 +3,17 @@ import type { Code } from "astro:components";
 import Layout from "../layouts/BasicLayout.astro";
 const title = "Sign in";
 
-const { url } = Astro.request;
-const redirectUrl = new URL(url).searchParams.get("redirectUrl");
-const urlToRedirect = "/api/auth/signin?redirectUrl=" + redirectUrl;
+const { url: urlString } = Astro.request;
+const url = new URL(urlString);
+const redirectUrl = url.searchParams.get("redirectUrl");
+const params = new URLSearchParams({
+  redirectUrl: redirectUrl || '',
+  // type: typeParam || '',
+  // id: idParam || ''
+});
+url.search = params.toString();
+const newurl = "/api/auth/signin?" + url.searchParams.toString();
+console.log(newurl);
 ---
 
 <Layout title={title}>
@@ -25,7 +33,7 @@ const urlToRedirect = "/api/auth/signin?redirectUrl=" + redirectUrl;
           >
         </p>
         <form
-          action={urlToRedirect || "/api/auth/signin"}
+          action={newurl || "/api/auth/signin"}
           method="post"
           class="grid grid-cols-1 gap-3 w-full"
         >

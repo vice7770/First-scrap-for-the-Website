@@ -32,5 +32,8 @@ export const CartResult = z
 .nullable();
 
 export const favoritesResult = z.array(z.number()).nullable();
+export const pendingFavoriteResult = z.number().nullable();
 
-
+export const user = z.object({
+  email: z.string().email()
+});
