@@ -41,12 +41,15 @@ export async function getFavorites() {
 }
 
 export async function setFavorites(id: number) {
-    const currentFavorites = $favorites.get() || [];
-    if (currentFavorites.includes(id)) {
-        $favorites.set(currentFavorites.filter((currentFavoritesId: number) => currentFavoritesId !== id));
-        return;
+    const currentFavorites = new Set($favorites.get() || []);
+    
+    if (currentFavorites.has(id)) {
+      currentFavorites.delete(id);
+    } else {
+      currentFavorites.add(id);
     }
-    $favorites.set([...currentFavorites, id]);  
+  
+    $favorites.set(Array.from(currentFavorites));
 }
 
 export async function cleanFavorites() {
