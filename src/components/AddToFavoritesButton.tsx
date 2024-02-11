@@ -14,18 +14,22 @@ function goToSignIn(id: number) {
 }
 
 async function addToFavorites(id: number) {
-  const res = await fetch("/api/favorites", {
-    method: "POST",
-    body: JSON.stringify({ id }),
-  });
+  setFavorites(id);
+  try {
+    const res = await fetch("/api/favorites", {
+      method: "POST",
+      body: JSON.stringify({ id }),
+    });
 
-  const data = await res.json();
+    const data = await res.json();
 
-  if (!res.ok) {
-    throw new Error(data.message);
-  }
+    if (!res.ok) {
+      throw new Error(data.message);
+    }
+  } catch (error) {
+    console.error(error);
 
-  if (res.ok) {
+    // If the API call fails, revert the UI back to its previous state
     setFavorites(id);
   }
 }
