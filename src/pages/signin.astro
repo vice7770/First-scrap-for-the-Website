@@ -13,12 +13,17 @@ const params = new URLSearchParams({
 });
 url.search = params.toString();
 const newurl = "/api/auth/signin?" + url.searchParams.toString();
-console.log(newurl);
 ---
 
 <Layout title={title}>
   <div class="flex justify-center items-center w-full h-full">
-    <main class="flex-1 flex flex-col gap-4 items-center mb-14 justify-center">
+    <main class="flex-1 flex flex-col gap-4 items-center mb-14 justify-center gap-y-10">
+      <div class="flex">
+        <a class="flex items-center justify-center p-0 !p-0 " href="/">
+          <span class="sr-only">Georgia</span>
+          <img src="/georgia-flag.png" alt="GeorgiaFlag" width="96" draggable="false"/>
+        </a>
+      </div>
       <section class="w-full max-w-md">
         <h1
           class="font-semibold text-2xl dark:text-zinc-100 text-zinc-900 w-full mb-1"
