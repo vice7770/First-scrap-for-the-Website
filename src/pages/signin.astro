@@ -12,7 +12,8 @@ const params = new URLSearchParams({
   // id: idParam || ''
 });
 url.search = params.toString();
-const newurl = "/api/auth/signin?" + url.searchParams.toString();
+const urlHasRedirect = redirectUrl?.replace(/\//g, "") ? true : false;
+const newurl = urlHasRedirect ? "/api/auth/signin?" + url.searchParams.toString() : "/api/auth/signin";
 ---
 
 <Layout title={title}>
@@ -38,7 +39,7 @@ const newurl = "/api/auth/signin?" + url.searchParams.toString();
           >
         </p>
         <form
-          action={newurl || "/api/auth/signin"}
+          action={newurl}
           method="post"
           class="grid grid-cols-1 gap-3 w-full"
         >
