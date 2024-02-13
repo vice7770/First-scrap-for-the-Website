@@ -1,4 +1,3 @@
-import type { z } from "zod";
 import { atom } from "nanostores";
 import { partners,type Partner } from "../consts";
 
