@@ -8,7 +8,7 @@ const { posts } = Astro.props;
             <li class="w-1/3 px-2">
                 <a href={`/shop/${post.slug}/`}>
                     <img class="w-full h-auto" height={613} width={613} src={post.data.image} alt="" transition:name={"imageShop" + post.data.id}/>
-                    <h4 class="flex content-center justify-center title p-4">{post.data.title}</h4>
+                    <h4 class="flex content-center justify-center title p-4">{post.data.name}</h4>
                 </a>
             </li>
         ))

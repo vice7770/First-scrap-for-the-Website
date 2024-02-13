@@ -11,7 +11,7 @@ import FavoritesList from '@/components/FavoritesList';
 // const shopPosts = (await getCollection('shop'));
 
 const favorites = (await getCollection('shop')).sort(
-	(a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf()
+	(a, b) => a.data.created_at.valueOf() - b.data.created_at.valueOf()
 );
 
 ---

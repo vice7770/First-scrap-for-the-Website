@@ -11,7 +11,7 @@ import { supabase } from '@/lib/supabase';
 
 type Props = CollectionEntry<'shop'>['data'];
 
-const { id, title, description, pubDate, updatedDate, image, available, price } = Astro.props;
+const { id, name, description, created_at, modified_at, image, available, price } = Astro.props;
 
 const { cookies, redirect } = Astro;
 
@@ -24,7 +24,6 @@ const { data } = await supabase.auth.setSession({
 });
 const email = data?.user?.email || '';
 const isAuth = !!email;
-console.log('isAuth', isAuth);
 
 const { url } = Astro.request;
 const newUrl = new URL(url);
@@ -34,7 +33,7 @@ const redirectUrlParam = newUrl.searchParams.get('redirectUrl');
 
 <html lang="en">
 	<head>
-		<BaseHead title={title} description={description} />
+		<BaseHead name={name} description={description} />
 		<ViewTransitions />
 	</head>
 
@@ -45,16 +44,16 @@ const redirectUrlParam = newUrl.searchParams.get('redirectUrl');
 				{image && <img class="w-full h-auto" draggable='false' src={image} alt="" transition:name={"imageShop" + id}/>}
 			</div>
 			<div class="w-1/2 p-4">
-				<h1 class="text-2xl mb-2">{title}</h1>
+				<h1 class="text-2xl mb-2">{name}</h1>
 				<p class="text-sm text-gray-500 mb-4">
-					<FormattedDate date={pubDate} />
-					{updatedDate && <span>Last updated on <FormattedDate date={updatedDate} /></span>}
+					<FormattedDate date={created_at} />
+					{modified_at && <span>Last updated on <FormattedDate date={modified_at} /></span>}
 				</p>
 				<p class="text-lg mb-4">${price}</p>
 				<p class={available ? "text-green-500 mb-4" : "text-red-500"}>{available ? 'In Stock' : 'Out of Stock'}</p>
 				<!-- <button class="bg-blue-500 text-white px-4 py-2 rounded mb-2" @click={handleClick}>Add to Cart</button> -->
 				<div class="flex flex-col w-2/3">
-					<AddToCartButton client:load id={id.toString()} quantity={1} price={price} imageUrl={image} title={title} />
+					<AddToCartButton client:load id={id.toString()} quantity={1} price={price} imageUrl={image} name={name} />
 					<AddToFavoritesButton client:load id={id} isAuth={isAuth}/>
 				</div>
 			</div>

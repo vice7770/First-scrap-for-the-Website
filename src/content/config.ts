@@ -25,13 +25,13 @@ const shop = defineCollection({
 	type: 'content',
 	schema: z.object({
 		id: z.number(), // Unique ID
-		title: z.string(),
+		name: z.string(),
 		description: z.string(),
 		image:z.string(),
 		price: z.number(),
 		available: z.boolean(),
-		pubDate: z.coerce.date(),
-		updatedDate: z.coerce.date().optional(),
+		created_at: z.coerce.date(),
+		modified_at: z.coerce.date().optional(),
 	}),
 });
 
