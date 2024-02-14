@@ -1,4 +1,4 @@
-import type { z } from "zod";
+import { set, type z } from "zod";
 import { atom } from "nanostores";
 import { persistentAtom } from "@nanostores/persistent";
 import { v4 as uuidv4 } from "uuid";
@@ -10,6 +10,7 @@ import { v4 as uuidv4 } from "uuid";
 // } from "../utils/shopify";
 import type { CartResult } from "../utils/schemas";
 import { SITE_URL } from "../consts";
+import type { Cart, ShoppingSession, NodeList } from "@/utils/types/cart";
 
 // Cart drawer state (open or closed) with initial value (false) and no persistent state (local storage)
 export const isCartDrawerOpen = atom(false);
@@ -17,10 +18,10 @@ export const isCartDrawerOpen = atom(false);
 // Cart is updating state (true or false) with initial value (false) and no persistent state (local storage)
 export const isCartUpdating = atom(false);
 
-const emptyCart = {
+const emptyCart : Cart = {
   id: "",
   checkoutUrl: "",
-  totalQuantity: 0,
+  totalQuantity: null,
   lines: { nodes: [] },
   cost: { subtotalAmount: { amount: "", currencyCode: "" } },
 };
@@ -43,93 +44,88 @@ export const cart = persistentAtom<z.infer<typeof CartResult>>(
 // Shopify automatically deletes the cart when the customer completes the checkout or if the cart is unused or abandoned after 10 days
 // https://shopify.dev/custom-storefronts/cart#considerations
 export async function initCart() {
-  const sessionStarted = sessionStorage.getItem("sessionStarted");
-  if (!sessionStarted) {
-    sessionStorage.setItem("sessionStarted", "true");
-    const localCart = cart.get();
-    const cartId = localCart?.id ? localCart.id : null;
-    const isUserLoggingIn = false; //placeholder
-    if (cartId) {
-      // const data = await getCart(cartId);
-      // if (data) {
-      //   cart.set({
-      //     id: data.id,
-      //     cost: data.cost,
-      //     checkoutUrl: data.checkoutUrl,
-      //     totalQuantity: data.totalQuantity,
-      //     lines: data.lines,
-      //   });
-      // } else {
-        // If the cart doesn't exist in Shopify, reset the cart store
-        cart.set(emptyCart);
-      // }
-    }
+  sessionStorage.setItem("sessionStarted", "true");
+  const localCart = cart.get();
+  const cartId = localCart?.id ? localCart.id : null;
+  const isUserLoggingIn = false; //placeholder
+  if (cartId) {
+    // const data = await getCart(cartId);
+    // if (data) {
+    //   cart.set({
+    //     id: data.id,
+    //     cost: data.cost,
+    //     checkoutUrl: data.checkoutUrl,
+    //     totalQuantity: data.totalQuantity,
+    //     lines: data.lines,
+    //   });
+    // } else {
+      // If the cart doesn't exist in Shopify, reset the cart store
+      cart.set(emptyCart);
+    // }
   }
 }
 
-// Add item to cart or create a new cart if it doesn't exist yet
-// export async function addCartItem(item: { id: string; quantity: number, price: number}) {
-//   const localCart = cart.get();
-//   const cartId = localCart?.id;
-//   const isUserLoggingIn = false; //placeholder
+export async function getCartItemsFromServer() {
+  try {
+    // First fetch
+    const resShoppingSession = await fetch("/api/shoppingSession", {
+        method: "GET",
+    });
 
-//   isCartUpdating.set(true);
+    const shoppingSession : ShoppingSession[] = await resShoppingSession.json();
+    console.log(shoppingSession);
+    if (!resShoppingSession.ok) {
+        throw new Error("error at shopping session fetch");
+    }
 
-//   if (!cartId) {
-//     // const cartData = await createCart(item.id, item.quantity);
-//     if(isUserLoggingIn) {
-//       // to do
-//     } else {
-//       const cartGeneratedId = "1234567890";
-//       // const cartGeneratedId = uuidv4();
-//       cart.set({
-//         ...cart.get(),
-//         id: cartGeneratedId,
-//         cost: { subtotalAmount: { amount: item.price, currencyCode: "USD" } },
-//         checkoutUrl: Url + cartGeneratedId,
-//         totalQuantity: item.quantity,
-//         lines: {
-//           nodes: [
-//             {
-//               id: item.id,
-//               cost: {
-//                 subTotalAmount: {
-//                   cost: item.price * item.quantity,
-//                   currencyCode: "USD",
-//                 },
-//               },
-//               quantity: item.quantity,
-//             },
-//           ],
-//         },
-//       });
-//       isCartUpdating.set(false);
-//       isCartDrawerOpen.set(true);
-      
-//     }
-//   } else {
-//     // const cartData = await addCartLines(cartId, item.id, item.quantity);
-//     if(isUserLoggingIn) {
-//       // to do
-//     } else {
-//       // to do
-//       // cart.set({
-//       //   ...cart.get(),
-//       //   id: cartId,
-//       //   cost: cartData.cost,
-//       //   checkoutUrl: cartData.checkoutUrl,
-//       //   totalQuantity: cartData.totalQuantity,
-//       //   lines: cartData.lines,
-//       // });
-//       // isCartUpdating.set(false);
-//       // isCartDrawerOpen.set(true);
-//     }
-//   }
-// }
+    if(!shoppingSession || shoppingSession.length === 0) return null;
 
-export async function addCartItemOffline(item: { id: string; quantity: number, price: number, imageUrl: string, title: string}) {
+    // Second fetch, using data from first fetch
+    const resNodeList = await fetch(`/api/nodeList?sessionId=${shoppingSession[0].id}`, {
+        method: "GET",
+    });
+
+    const nodeList : NodeList[] = await resNodeList.json();
+
+    if (!resNodeList.ok) {
+        throw new Error("error at node list fetch");
+    }
+    const shoppingSession_ = shoppingSession[0];
+    const cart_ : Cart = {
+      id: shoppingSession_.id.toString(),
+      cost: {
+        subtotalAmount: {
+          amount: shoppingSession_.sub_total.toString(),
+          currencyCode: "USD",
+        },
+      },
+      checkoutUrl: Url + shoppingSession_.id,
+      totalQuantity: shoppingSession_.total_quantity,
+      lines: {
+          nodes: nodeList.map((node) => {
+            return {
+                id: node.id.toString(),
+                cost: {
+                    subtotalAmount: {
+                        amount: node.sub_total.toString(),
+                        currencyCode: "USD",
+                    },
+                },
+                quantity: node.total_quantity,
+                imageUrl: "https://via.placeholder.com/150",
+                title: "Product",
+            };
+          }),
+        },
+    };
+    cart.set(cart_);
+  } catch (error) {
+      console.error(error)
+  }
+}
+
+export async function addCartItemOffline(item: { id: string; quantity: number, price: number, imageUrl: string, name: string}) {
   isCartUpdating.set(true);
-
   const localCart = cart.get();
   const cartId = localCart?.id || uuidv4(); // Replace with uuidv4() for unique id
   const existingQuantity = getExistingQuantity(localCart, item);

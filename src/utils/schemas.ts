@@ -24,7 +24,7 @@ export const CartResult = z
       subtotalAmount: MoneyV2Result,
     }),
     checkoutUrl: z.string(),
-    totalQuantity: z.number().int(),
+    totalQuantity: z.number().int().nullable(),
     lines: z.object({
       nodes: z.array(CartItemResult),
     }),
