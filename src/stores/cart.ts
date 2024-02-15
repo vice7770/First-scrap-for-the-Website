@@ -30,7 +30,7 @@ const emptyCart : Cart = {
 const Url = SITE_URL + "/shop/";
 
 // Cart store with persistent state (local storage) and initial value
-export const cart = persistentAtom<z.infer<typeof CartResult>>(
+export const $cart = persistentAtom<z.infer<typeof CartResult>>(
   "cart",
   emptyCart,
   {
@@ -45,7 +45,7 @@ export const cart = persistentAtom<z.infer<typeof CartResult>>(
 // https://shopify.dev/custom-storefronts/cart#considerations
 export async function initCart() {
   sessionStorage.setItem("sessionStarted", "true");
-  const localCart = cart.get();
+  const localCart = $cart.get();
   const cartId = localCart?.id ? localCart.id : null;
   const isUserLoggingIn = false; //placeholder
   if (cartId) {
@@ -60,7 +60,7 @@ export async function initCart() {
     //   });
     // } else {
       // If the cart doesn't exist in Shopify, reset the cart store
-      cart.set(emptyCart);
+      $cart.set(emptyCart);
     // }
   }
 }
@@ -118,7 +118,7 @@ export async function getCartItemsFromServer() {
           }),
         },
     };
-    cart.set(cart_);
+    $cart.set(cart_);
   } catch (error) {
       console.error(error)
   }
@@ -126,7 +126,7 @@ export async function getCartItemsFromServer() {
 
 export async function addCartItemOffline(item: { id: string; quantity: number, price: number, imageUrl: string, name: string}) {
   isCartUpdating.set(true);
-  const localCart = cart.get();
+  const localCart = $cart.get();
   const cartId = localCart?.id || uuidv4(); // Replace with uuidv4() for unique id
   const existingQuantity = getExistingQuantity(localCart, item);
   const newQuantity = existingQuantity + item.quantity;
@@ -134,7 +134,7 @@ export async function addCartItemOffline(item: { id: string; quantity: number, p
   const subtotalAmount = addSubtotalAmount(localCart, item);
   const totalQuantity = addTotalQuantity(localCart, item);
 
-  cart.set({
+  $cart.set({
     ...localCart,
     id: cartId,
     cost: {
@@ -155,7 +155,7 @@ export async function addCartItemOffline(item: { id: string; quantity: number, p
 }
 
 export async function removeCartItems(lineIds: string[]) {
-  const localCart = cart.get();
+  const localCart = $cart.get();
   const cartId = localCart?.id;
 
   isCartUpdating.set(true);
@@ -178,7 +178,7 @@ export async function removeCartItems(lineIds: string[]) {
 }
 
 export async function removeCartItemsOffline(lineId: string) {
-  const localCart = cart.get();
+  const localCart = $cart.get();
 
   isCartUpdating.set(true);
 
@@ -189,7 +189,7 @@ export async function removeCartItemsOffline(lineId: string) {
     const subtotalAmount = subtractSubtotalAmount(localCart, item);
     const totalQuantity = subtractTotalQuantity(localCart, item);
     // Update the cart
-    cart.set({
+    $cart.set({
       ...localCart,
       cost: {
         subtotalAmount: {

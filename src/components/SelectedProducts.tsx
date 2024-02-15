@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { cart } from "@/stores/cart";
+import { $cart } from "@/stores/cart";
 import { useStore } from "@nanostores/react";
 import RemoveFromCartButton from "@/components/RemoveFromCartButton";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -27,8 +27,8 @@ const SkeletonComponent = () => {
 
 export default function SelectedProducts() {
     const [isLoading, setIsLoading] = useState(true);
-    const $cart = useStore(cart);
-    const selectedProducts = $cart ? $cart.lines.nodes : [];
+    const cart = useStore($cart);
+    const selectedProducts = cart ? cart.lines.nodes : [];
 
     useEffect(() => {
         setIsLoading(false);
