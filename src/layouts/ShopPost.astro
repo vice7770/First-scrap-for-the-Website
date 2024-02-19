@@ -13,16 +13,9 @@ type Props = CollectionEntry<'shop'>['data'];
 
 const { id, name, description, created_at, modified_at, image, available, price } = Astro.props;
 
-const { cookies, redirect } = Astro;
+const { data : userData } = await supabase.auth.getUser();
 
-const accessToken = cookies.get("sb-access-token");
-const refreshToken = cookies.get("sb-refresh-token");
-
-const { data } = await supabase.auth.setSession({
-  refresh_token: refreshToken?.value ?? "",
-  access_token: accessToken?.value ?? "",
-});
-const email = data?.user?.email || '';
+const email = userData?.user?.email || '';
 const isAuth = !!email;
 
 const { url } = Astro.request;
@@ -36,7 +29,6 @@ const redirectUrlParam = newUrl.searchParams.get('redirectUrl');
 		<BaseHead name={name} description={description} />
 		<ViewTransitions />
 	</head>
-
 	<body>
 		<Header />
 		<main class="flex">
