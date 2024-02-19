@@ -69,7 +69,7 @@ const favoritesUrl = newUrlFavorite.toString();
 					</a>
 				</div>
 				<div>
-					<CartIcon client:load/>
+					<CartIcon email={email} client:load/>
 				</div>
 				{email ? (
 					<div class="flex items-center justify-center mb-2">

@@ -39,8 +39,8 @@ export type NodeList = {
     created_at: string;
     id: number;
     modified_at: string | null;
-    sub_total: number;
-    total_quantity: number;
+    total_amount: number;
+    quantity: number;
     user_id: string;
 };
 

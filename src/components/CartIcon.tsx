@@ -1,7 +1,7 @@
 import { useEffect, useState} from "react";
 import { useStore } from "@nanostores/react";
 
-import { $cart } from "@/stores/cart";
+import { $cart, getCartItemsFromServer } from "@/stores/cart";
 
 const CartComponent = ({numberOfItems} : {numberOfItems: number | null}) => {
     return (
@@ -33,14 +33,18 @@ const CartComponent = ({numberOfItems} : {numberOfItems: number | null}) => {
     )
 }
  
-const CartIcon = () => {
+const CartIcon = ({email} : {email:string}) => {
     const [isLoading, setIsLoading] = useState(true);
     const cart = useStore($cart);
-
     useEffect(() => {
         setIsLoading(false);
     }, []);
 
+    useEffect(() => {
+        if(cart?.id === "" && email !== "") {
+            getCartItemsFromServer();
+        }
+    },[]);
     if (isLoading) {
         return (
            <CartComponent numberOfItems={null} />

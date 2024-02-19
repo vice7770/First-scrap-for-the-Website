@@ -73,7 +73,6 @@ export async function getCartItemsFromServer() {
     });
 
     const shoppingSession : ShoppingSession[] = await resShoppingSession.json();
-    console.log(shoppingSession);
     if (!resShoppingSession.ok) {
         throw new Error("error at shopping session fetch");
     }
@@ -91,27 +90,29 @@ export async function getCartItemsFromServer() {
         throw new Error("error at node list fetch");
     }
     const shoppingSession_ = shoppingSession[0];
+    const totalQuantity = nodeList.reduce((acc, node) => acc + node.quantity, 0);
+    const subtotalAmount = nodeList.reduce((acc, node) => acc + node.total_amount, 0);
     const cart_ : Cart = {
       id: shoppingSession_.id.toString(),
       cost: {
         subtotalAmount: {
-          amount: shoppingSession_.sub_total.toString(),
+          amount: subtotalAmount.toString(),
           currencyCode: "USD",
         },
       },
       checkoutUrl: Url + shoppingSession_.id,
-      totalQuantity: shoppingSession_.total_quantity,
+      totalQuantity: totalQuantity,
       lines: {
           nodes: nodeList.map((node) => {
             return {
                 id: node.id.toString(),
                 cost: {
                     subtotalAmount: {
-                        amount: node.sub_total.toString(),
+                        amount: node.total_amount.toString(),
                         currencyCode: "USD",
                     },
                 },
-                quantity: node.total_quantity,
+                quantity: node.quantity,
                 imageUrl: "https://via.placeholder.com/150",
                 title: "Product",
             };
