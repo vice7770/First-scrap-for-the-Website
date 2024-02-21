@@ -27,12 +27,13 @@ export type Node = {
 };
 
 export type ShoppingSession = {
-    created_at: string;
     id: number;
-    modified_at: string | null;
+    user_id: string;
+    session_id: string;
     sub_total: number;
     total_quantity: number;
-    user_id: string;
+    created_at: string;
+    modified_at: string | null;
 };
 
 export type NodeList = {

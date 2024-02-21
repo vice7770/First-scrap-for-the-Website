@@ -45,7 +45,7 @@ const redirectUrlParam = newUrl.searchParams.get('redirectUrl');
 				<p class={available ? "text-green-500 mb-4" : "text-red-500"}>{available ? 'In Stock' : 'Out of Stock'}</p>
 				<!-- <button class="bg-blue-500 text-white px-4 py-2 rounded mb-2" @click={handleClick}>Add to Cart</button> -->
 				<div class="flex flex-col w-2/3">
-					<AddToCartButton client:load id={id.toString()} quantity={1} price={price} imageUrl={image} name={name} />
+					<AddToCartButton client:load id={id.toString()} quantity={1} price={price} imageUrl={image} name={name} isAuth={isAuth}/>
 					<AddToFavoritesButton client:load id={id} isAuth={isAuth}/>
 				</div>
 			</div>
