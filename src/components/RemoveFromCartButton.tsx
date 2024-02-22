@@ -1,6 +1,6 @@
 import React from "react";
 import {Button} from "@/components/ui/button";
-import { $cart, findNode, removeCartItemsOffline } from "@/stores/cart";
+import { $cart, removeCartItemsOffline } from "@/stores/cart";
 import type { ShoppingSession } from "@/utils/types/cart";
 
 async function removeFromCart({id}: {id: string}) {
