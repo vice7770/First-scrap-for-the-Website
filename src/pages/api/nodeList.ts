@@ -74,5 +74,26 @@ export const POST: APIRoute = async ({ request }) => {
 
     return new Response(JSON.stringify(insertData));
   }
+};
 
+export const DELETE: APIRoute = async ({ request }) => {
+  const { sessionId, itemId } = await request.json();
+  const { data : userData } = await supabase.auth.getUser();
+  const userId = userData?.user?.id;
+  const { data, error } = await supabase
+    .from('node_list')
+    .delete()
+    .eq('session_id', sessionId)
+    .eq('user_id', userId)
+    .eq('item_id', itemId);
+  if (error) {
+    return new Response(
+      JSON.stringify({
+        error: error.message,
+      }),
+      { status: 500 },
+    );
+  }
+
+  return new Response(JSON.stringify(data));
 };
