@@ -43,5 +43,6 @@ export type NodeList = {
     total_amount: number;
     quantity: number;
     user_id: string;
+    item_id: number;
 };
 

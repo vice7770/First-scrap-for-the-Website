@@ -29,7 +29,8 @@ export const POST: APIRoute = async ({ request }) => {
     .from('node_list')
     .select('*')
     .eq('session_id', sessionId)
-    .eq('user_id', userId);
+    .eq('user_id', userId)
+    .eq('item_id', itemId);
   if (error) {
     return new Response(
       JSON.stringify({
@@ -38,13 +39,13 @@ export const POST: APIRoute = async ({ request }) => {
       { status: 500 },
     );
   }
-  console.log('Data', data);
   if (data && data.length > 0) {
     const { data: updateData, error } = await supabase
     .from('node_list')
-    .update({ itemId: itemId , quantity: quantity, total_amount: totalAmount })
+    .update({ quantity: quantity, total_amount: totalAmount })
     .eq('session_id', sessionId)
-    .eq('user_id', userId);
+    .eq('user_id', userId)
+    .eq('item_id', itemId);
 
     if (error) {
       return new Response(
@@ -58,7 +59,6 @@ export const POST: APIRoute = async ({ request }) => {
     return new Response(JSON.stringify(updateData));
   }
   else {
-    console.log('Inserting new node list', sessionId, userId, itemId, quantity, totalAmount);
     const { data: insertData, error } = await supabase
     .from('node_list')
     .insert({ session_id: sessionId, user_id: userId, item_id: itemId, quantity: quantity, total_amount: totalAmount });

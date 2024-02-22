@@ -93,19 +93,19 @@ export async function getCartItemsFromServer() {
     const totalQuantity = nodeList.reduce((acc, node) => acc + node.quantity, 0);
     const subtotalAmount = nodeList.reduce((acc, node) => acc + node.total_amount, 0);
     const cart_ : Cart = {
-      id: shoppingSession_.id.toString(),
+      id: shoppingSession_.session_id,
       cost: {
         subtotalAmount: {
           amount: subtotalAmount.toString(),
           currencyCode: "USD",
         },
       },
-      checkoutUrl: Url + shoppingSession_.id,
+      checkoutUrl: Url,
       totalQuantity: totalQuantity,
       lines: {
           nodes: nodeList.map((node) => {
             return {
-                id: node.id.toString(),
+                id: node.item_id.toString(),
                 cost: {
                     subtotalAmount: {
                         amount: node.total_amount.toString(),
