@@ -73,7 +73,7 @@ const favoritesUrl = newUrlFavorite.toString();
 				</div>
 				{email ? (
 					<div class="flex items-center justify-center mb-2">
-						<ProfileButton client:load/>
+						<ProfileButton email={email} accessToken={accessToken} client:load/>
 					</div>
 				  ) : (
 					<a href={signinUrl} class="flex items-center justify-center">

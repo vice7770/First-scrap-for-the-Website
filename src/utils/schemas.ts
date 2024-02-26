@@ -34,6 +34,9 @@ export const CartResult = z
 export const favoritesResult = z.array(z.number()).nullable();
 export const pendingFavoriteResult = z.number().nullable();
 
-export const user = z.object({
-  email: z.string().email()
-});
+export const userSession = z.object({
+  session_id: z.string(),
+  email: z.string().email(),
+  iat: z.number(),
+  exp: z.number(),
+}).nullable();

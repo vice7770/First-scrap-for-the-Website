@@ -8,12 +8,42 @@ import {
     DropdownMenuTrigger,
   } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { $user } from "@/stores/user";
+import { useStore } from "@nanostores/react";
+import { jwtDecode, type JwtPayload } from "jwt-decode";
 
-const ProfileButton = () => {
+interface ProfileButtonProps {
+  email: string;
+  accessToken: any | undefined
+}
+
+interface TokenExtended extends JwtPayload {
+  session_id: string;
+  email: string;
+}
+
+const ProfileButton = (props : ProfileButtonProps) => {
   const [isLoading, setIsLoading] = useState(true);
+  const { email, accessToken } = props;
+  const user = useStore($user);
+
+  const decodedToken : TokenExtended = jwtDecode(accessToken.value as string);
+
+  // console.log("user", accessToken, decodedToken);
 
   useEffect(() => {
-      setIsLoading(false);
+    setIsLoading(false);
+    // console.log("user", user, email);
+    if(decodedToken && user?.session_id !== decodedToken.session_id){
+      $user.set( 
+        {
+          session_id: decodedToken.session_id || "",
+          email: decodedToken.email || "",
+          iat: decodedToken.iat || 0,
+          exp: decodedToken.exp || 0,
+        }
+      );
+    }
   }, []);
 
   if (isLoading) {
@@ -31,6 +61,7 @@ const ProfileButton = () => {
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
+        <DropdownMenuItem>{email || ""}</DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem className="cursor-pointer">Profile</DropdownMenuItem>
         <DropdownMenuItem className="cursor-pointer">Billing</DropdownMenuItem>
