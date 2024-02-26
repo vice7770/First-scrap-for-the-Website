@@ -43,30 +43,36 @@ export const onRequest = defineMiddleware(
         return redirect("/signin");
       }
     }
-    else if(accessToken && refreshToken) {
-      const { data, error } = await supabase.auth.setSession({
-        refresh_token: refreshToken.value,
-        access_token: accessToken.value,
-      });
+    //this supabase validation makes code to slow on every page load 
+    //this need to be better managed
+    // else if(accessToken && refreshToken) {
+    //   const { data, error } = await supabase.auth.setSession({
+    //     refresh_token: refreshToken.value,
+    //     access_token: accessToken.value,
+    //   });
     
-      if (error) {
-        cleanCookies(cookies);
-        // cleanStores($cart);
-        return redirect("/signin");
-      }
+    //   if (error) {
+    //     cleanCookies(cookies);
+    //     // cleanStores($cart);
+    //     return redirect("/signin");
+    //   }
 
-      console.log(locals);
-      cookies.set("sb-access-token", data?.session?.access_token!, {
-        sameSite: "strict",
-        path: "/",
-        secure: true,
-      });
-      cookies.set("sb-refresh-token", data?.session?.refresh_token!, {
-        sameSite: "strict",
-        path: "/",
-        secure: true,
-      });
-    }
+    //   // locals.user.email = data?.user?.email || "";
+    //   // console.log("user email", data?.user?.email, locals);
+    //   cookies.set("sb-access-token", data?.session?.access_token!, {
+    //     sameSite: "strict",
+    //     path: "/",
+    //     secure: true,
+    //   });
+    //   cookies.set("sb-refresh-token", data?.session?.refresh_token!, {
+    //     sameSite: "strict",
+    //     path: "/",
+    //     secure: true,
+    //   });
+    // }
+    // locals.user = {
+    //   email: accessToken.,
+    // };
     return next();
   },
 );
