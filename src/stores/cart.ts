@@ -10,7 +10,7 @@ import { v4 as uuidv4 } from "uuid";
 // } from "../utils/shopify";
 import { userSession, type CartResult } from "../utils/schemas";
 import { SITE_URL } from "../consts";
-import type { Cart, ShoppingSession, NodeList } from "@/utils/types/cart";
+import type { Cart, ShoppingSession, NodeList, Node } from "@/utils/types/cart";
 import { $userSession } from "./user";
 
 // Cart drawer state (open or closed) with initial value (false) and no persistent state (local storage)
@@ -100,7 +100,7 @@ export async function getCartItemsFromServer() {
     const shoppingSession_ = shoppingSession[0];
     const totalQuantity = nodeList.reduce((acc, node) => acc + node.quantity, 0);
     const subtotalAmount = nodeList.reduce((acc, node) => acc + node.total_amount, 0);
-    const cart_ : Cart = {
+    let cart_ : Cart = {
       id: shoppingSession_.session_id,
       cost: {
         subtotalAmount: {
@@ -128,6 +128,33 @@ export async function getCartItemsFromServer() {
         },
       sessionId: $userSession.get()?.session_id,
     };
+    const cartStore = $cart.get();
+    if(cartStore?.totalQuantity && cartStore?.totalQuantity > 0){
+      // merge cart_ and cart
+      const mergedNodes = cart_.lines.nodes as Node[];
+      cartStore.lines.nodes.forEach((node) => {
+        const nodeIndex = mergedNodes.findIndex((node_) => node_.id === node.id); 
+        if(nodeIndex !== -1){
+          mergedNodes[nodeIndex].quantity += node.quantity;
+          mergedNodes[nodeIndex].cost.subtotalAmount.amount = (Number(mergedNodes[nodeIndex].cost.subtotalAmount.amount) + Number(node.cost.subtotalAmount.amount)).toString();        }
+        else {
+          mergedNodes.push(node);
+        }
+      })
+      cart_ = {
+        ...cart_,
+        cost: {
+          subtotalAmount: {
+            amount: (parseInt(cartStore.cost.subtotalAmount.amount) + parseInt(cart_.cost.subtotalAmount.amount)).toString(),
+            currencyCode: "USD",
+          },
+        },
+        totalQuantity: cartStore.totalQuantity + (cart_.totalQuantity || 0),
+        lines: {
+          nodes: mergedNodes,
+        },
+      };
+    }
     $cart.set(cart_);
   } catch (error) {
       console.error(error)
