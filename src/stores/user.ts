@@ -33,7 +33,6 @@ onMount($userSession, () => {
   const accessToken = Cookies.get("sb-access-token");
   if(accessToken){
     const decodedToken : TokenExtended = jwtDecode(accessToken as string);
-    console.log("OnMount", Cookies.get("sb-access-token"));
     $userSession.set( 
       {
         session_id: decodedToken.session_id || "",
