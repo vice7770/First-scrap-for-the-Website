@@ -1,8 +1,6 @@
 import type { z } from "zod";
-import { atom } from "nanostores";
 import { persistentAtom } from "@nanostores/persistent";
 import type { favoritesResult, pendingFavoriteResult } from "@/utils/schemas";
-  
 // Favorites store with persistent state (local storage) and initial value
 export const $favorites = persistentAtom<z.infer<typeof favoritesResult>>(
     "favorites",

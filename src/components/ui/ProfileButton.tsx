@@ -8,9 +8,10 @@ import {
     DropdownMenuTrigger,
   } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { $user } from "@/stores/user";
+import { $userSession } from "@/stores/user";
 import { useStore } from "@nanostores/react";
 import { jwtDecode, type JwtPayload } from "jwt-decode";
+import { cleanStores } from "nanostores";
 
 interface ProfileButtonProps {
   email: string;
@@ -25,25 +26,23 @@ interface TokenExtended extends JwtPayload {
 const ProfileButton = (props : ProfileButtonProps) => {
   const [isLoading, setIsLoading] = useState(true);
   const { email, accessToken } = props;
-  const user = useStore($user);
+  const user = useStore($userSession);
 
-  const decodedToken : TokenExtended = jwtDecode(accessToken.value as string);
-
-  // console.log("user", accessToken, decodedToken);
+  // const decodedToken : TokenExtended = jwtDecode(accessToken.value as string);
 
   useEffect(() => {
     setIsLoading(false);
     // console.log("user", user, email);
-    if(decodedToken && user?.session_id !== decodedToken.session_id){
-      $user.set( 
-        {
-          session_id: decodedToken.session_id || "",
-          email: decodedToken.email || "",
-          iat: decodedToken.iat || 0,
-          exp: decodedToken.exp || 0,
-        }
-      );
-    }
+    // if(decodedToken && user?.session_id !== decodedToken.session_id){
+    //   $userSession.set( 
+    //     {
+    //       session_id: decodedToken.session_id || "",
+    //       email: decodedToken.email || "",
+    //       iat: decodedToken.iat || 0,
+    //       exp: decodedToken.exp || 0,
+    //     }
+    //   );
+    // }
   }, []);
 
   if (isLoading) {
