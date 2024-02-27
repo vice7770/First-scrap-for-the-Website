@@ -28,7 +28,7 @@ export const CartResult = z
     lines: z.object({
       nodes: z.array(CartItemResult),
     }),
-    isServer: z.boolean(),
+    sessionId: z.string().nullable().optional(),
 })
 .nullable();
 

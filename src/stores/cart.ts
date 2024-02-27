@@ -25,7 +25,7 @@ export const emptyCart : Cart = {
   totalQuantity: null,
   lines: { nodes: [] },
   cost: { subtotalAmount: { amount: "", currencyCode: "" } },
-  isServer: false,
+  sessionId: "",
 };
 
 // const Url = "https://localhost:4321/shop/";
@@ -72,13 +72,6 @@ export async function initCart() {
     // }
   }
 }
-
-onMount($cart, (cart) => {
-  if(!userSession) {
-    const cart = $cart.get();
-    cart?.isServer && $cart.set(emptyCart);
-  }
-});
 
 export async function getCartItemsFromServer() {
   try {
@@ -133,7 +126,7 @@ export async function getCartItemsFromServer() {
             };
           }),
         },
-      isServer: true,
+      sessionId: $userSession.get()?.session_id,
     };
     $cart.set(cart_);
   } catch (error) {
@@ -194,7 +187,6 @@ export async function addCartItemOffline(item: { id: string; quantity: number, p
     lines: {
       nodes: nodes,
     },
-    isServer: false,
   });
 
   isCartUpdating.set(false);

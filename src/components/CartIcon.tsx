@@ -1,7 +1,8 @@
 import { useEffect, useState} from "react";
 import { useStore } from "@nanostores/react";
 
-import { $cart, getCartItemsFromServer } from "@/stores/cart";
+import { $cart, emptyCart, getCartItemsFromServer } from "@/stores/cart";
+import { $userSession } from "@/stores/user";
 
 const CartComponent = ({numberOfItems} : {numberOfItems: number | null}) => {
     return (
@@ -36,15 +37,19 @@ const CartComponent = ({numberOfItems} : {numberOfItems: number | null}) => {
 const CartIcon = ({email} : {email:string}) => {
     const [isLoading, setIsLoading] = useState(true);
     const cart = useStore($cart);
+    const userSession = useStore($userSession);
     useEffect(() => {
         setIsLoading(false);
     }, []);
-
     useEffect(() => {
-        if(cart?.id === "" && email !== "") {
-            getCartItemsFromServer();
+        if(!userSession) {
+            cart?.sessionId && $cart.set(emptyCart);
+            return;
         }
-    },[]);
+        if(cart?.sessionId !== userSession.session_id) {
+            getCartItemsFromServer()
+        }
+    },[userSession]);
     if (isLoading) {
         return (
            <CartComponent numberOfItems={null} />

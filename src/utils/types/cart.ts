@@ -11,7 +11,7 @@ export type Cart = {
     lines: {
         nodes: Node[];
     };
-    isServer: boolean;
+    sessionId?: string | undefined;
 };
 
 export type Node = {

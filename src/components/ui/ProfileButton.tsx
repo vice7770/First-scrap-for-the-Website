@@ -10,23 +10,16 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { $userSession } from "@/stores/user";
 import { useStore } from "@nanostores/react";
-import { jwtDecode, type JwtPayload } from "jwt-decode";
-import { cleanStores } from "nanostores";
 
 interface ProfileButtonProps {
   email: string;
   accessToken: any | undefined
 }
 
-interface TokenExtended extends JwtPayload {
-  session_id: string;
-  email: string;
-}
-
 const ProfileButton = (props : ProfileButtonProps) => {
   const [isLoading, setIsLoading] = useState(true);
   const { email, accessToken } = props;
-  const user = useStore($userSession);
+  // const user = useStore($userSession);
 
   // const decodedToken : TokenExtended = jwtDecode(accessToken.value as string);
 

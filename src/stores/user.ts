@@ -4,10 +4,8 @@ import { userSession } from "@/utils/schemas";
 import { onMount } from "nanostores";
 import Cookies from "js-cookie";
 import { jwtDecode, type JwtPayload } from "jwt-decode";
-import { $favorites } from "./favorites";
-import { $cart, emptyCart } from "./cart";
 
-interface TokenExtended extends JwtPayload {
+export interface TokenExtended extends JwtPayload {
   session_id: string;
   email: string;
 }
@@ -45,13 +43,7 @@ onMount($userSession, () => {
     );
   }
   else {
-    console.log("OnMount", Cookies.get("sb-access-token"));
     //clean all stores
     $userSession.set(null);
-    $favorites.set(null);
-    const cart = $cart.get();
-    
-    if($cart.get() !== emptyCart)
-    $cart.set(emptyCart);
   }
 });
