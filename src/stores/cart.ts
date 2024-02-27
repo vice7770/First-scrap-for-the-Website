@@ -1,5 +1,5 @@
 import { set, type z } from "zod";
-import { atom, computed } from "nanostores";
+import { atom, onMount } from "nanostores";
 import { persistentAtom } from "@nanostores/persistent";
 import { v4 as uuidv4 } from "uuid";
 // import {
@@ -8,7 +8,7 @@ import { v4 as uuidv4 } from "uuid";
 //   createCart,
 //   removeCartLines,
 // } from "../utils/shopify";
-import type { CartResult } from "../utils/schemas";
+import { userSession, type CartResult } from "../utils/schemas";
 import { SITE_URL } from "../consts";
 import type { Cart, ShoppingSession, NodeList } from "@/utils/types/cart";
 import { $userSession } from "./user";
@@ -25,6 +25,7 @@ export const emptyCart : Cart = {
   totalQuantity: null,
   lines: { nodes: [] },
   cost: { subtotalAmount: { amount: "", currencyCode: "" } },
+  isServer: false,
 };
 
 // const Url = "https://localhost:4321/shop/";
@@ -71,6 +72,13 @@ export async function initCart() {
     // }
   }
 }
+
+onMount($cart, (cart) => {
+  if(!userSession) {
+    const cart = $cart.get();
+    cart?.isServer && $cart.set(emptyCart);
+  }
+});
 
 export async function getCartItemsFromServer() {
   try {
@@ -125,6 +133,7 @@ export async function getCartItemsFromServer() {
             };
           }),
         },
+      isServer: true,
     };
     $cart.set(cart_);
   } catch (error) {
@@ -185,6 +194,7 @@ export async function addCartItemOffline(item: { id: string; quantity: number, p
     lines: {
       nodes: nodes,
     },
+    isServer: false,
   });
 
   isCartUpdating.set(false);

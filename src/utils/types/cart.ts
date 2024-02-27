@@ -11,6 +11,7 @@ export type Cart = {
     lines: {
         nodes: Node[];
     };
+    isServer: boolean;
 };
 
 export type Node = {
