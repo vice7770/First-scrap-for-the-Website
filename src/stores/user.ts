@@ -4,6 +4,7 @@ import { userSession } from "@/utils/schemas";
 import { onMount } from "nanostores";
 import Cookies from "js-cookie";
 import { jwtDecode, type JwtPayload } from "jwt-decode";
+import { $favorites } from "./favorites";
 
 export interface TokenExtended extends JwtPayload {
   session_id: string;
@@ -45,5 +46,6 @@ onMount($userSession, () => {
   else {
     //clean all stores
     $userSession.set(null);
+    $favorites.set(null);
   }
 });
