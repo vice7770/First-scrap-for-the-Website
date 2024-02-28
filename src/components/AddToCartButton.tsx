@@ -1,43 +1,17 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {Button} from "@/components/ui/button";
-import { $cart, addCartItemOffline, addSubtotalAmount, addTotalQuantity, getExistingQuantity, updateNodes, findNode } from "@/stores/cart";
-import type { Node, NodeList, ShoppingSession } from "@/utils/types/cart";
+import { addCartItemOffline, postCartItemToServer } from "@/stores/cart";
+import { useDebouncedCallback } from 'use-debounce';
 
-async function addToCart(item: {id: string, quantity: number, price: number, imageUrl: string, name: string}) {
-    addCartItemOffline(item);
-    const localCart = $cart.get();
-    try {
-        const resShoppingSession = await fetch("/api/shoppingSession", {
-            method: "POST",
-            body: JSON.stringify({ sessionId: localCart?.id, quantity: localCart?.totalQuantity, totalAmount: localCart?.cost.subtotalAmount.amount }),
-        });
-
-        if (!resShoppingSession.ok) {
-            throw new Error("error at shopping session fetch");
-        }
-
-        const shoppingSession : ShoppingSession[] = await resShoppingSession.json();
-        const node : Node = findNode(localCart?.lines.nodes, item.id);
-        const resNodeList = await fetch("/api/nodeList", {
-            method: "POST",
-            body: JSON.stringify({ sessionId: shoppingSession[0].id, quantity: node.quantity, totalAmount: node.cost.subtotalAmount.amount ,itemId: item.id}),
-        });
-
-        if (!resNodeList.ok) {
-            throw new Error("error at node list fetch");
-        }
-
-    } catch (error) {
-        console.error(error);
-
-        // If the API call fails, revert the UI back to its previous state
-        // removeCartItemOffline(item.id)
-    }
-}
+// async function addToCart(item: {id: string, quantity: number, price: number, imageUrl: string, name: string}) {
+//     addCartItemOffline(item);
+//     postCartItemToServer(item);
+// }
 
 export default function AddToCartButton({id, quantity, price, imageUrl, name, isAuth}: {id: string, quantity: number, price: number, imageUrl: string, name: string, isAuth: boolean}) {
     const [isLoading, setIsLoading] = useState(true);
     const item = {id, quantity, price, imageUrl, name};
+    const debouncedPostCartItemToServer = useDebouncedCallback((value) => postCartItemToServer(value), 800);
     useEffect(() => {
         setIsLoading(false);
         // if(!isAuth){
@@ -58,7 +32,8 @@ export default function AddToCartButton({id, quantity, price, imageUrl, name, is
         className="mb-2 h-[50px] w-[250px] rounded-3xl bg-blue-500 px-4 py-2 text-lg text-white"
         onClick={() => {
             if (isAuth) {
-                addToCart(item);
+                addCartItemOffline(item);
+                debouncedPostCartItemToServer(item);
             }
             else {
                 addCartItemOffline(item);
