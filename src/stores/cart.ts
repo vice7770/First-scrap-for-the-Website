@@ -129,8 +129,9 @@ export async function getCartItemsFromServer() {
       sessionId: $userSession.get()?.session_id,
     };
     const cartStore = $cart.get();
+    const idsToUpdate = cartStore?.lines.nodes.map((node) => node.id) || [];
+    // If there are items selected in the frontend the data will be merged
     if(cartStore?.totalQuantity && cartStore?.totalQuantity > 0){
-      // merge cart_ and cart
       const mergedNodes = cart_.lines.nodes as Node[];
       cartStore.lines.nodes.forEach((node) => {
         const nodeIndex = mergedNodes.findIndex((node_) => node_.id === node.id); 
@@ -156,8 +157,41 @@ export async function getCartItemsFromServer() {
       };
     }
     $cart.set(cart_);
+    idsToUpdate.forEach((id) => {
+      postCartItemToServer({id});
+    })
   } catch (error) {
       console.error(error)
+  }
+}
+
+export async function postCartItemToServer(item: {id:string}) {
+  const localCart = $cart.get();
+  try {
+    const resShoppingSession = await fetch("/api/shoppingSession", {
+        method: "POST",
+        body: JSON.stringify({ sessionId: localCart?.id, quantity: localCart?.totalQuantity, totalAmount: localCart?.cost.subtotalAmount.amount }),
+    });
+
+    if (!resShoppingSession.ok) {
+        throw new Error("error at shopping session fetch");
+    }
+
+    const shoppingSession : ShoppingSession[] = await resShoppingSession.json();
+    const node : Node = findNode(localCart?.lines.nodes, item.id);
+    const resNodeList = await fetch("/api/nodeList", {
+        method: "POST",
+        body: JSON.stringify({ sessionId: shoppingSession[0].id, quantity: node.quantity, totalAmount: node.cost.subtotalAmount.amount ,itemId: item.id}),
+    });
+
+    if (!resNodeList.ok) {
+        throw new Error("error at node list fetch");
+    }
+  } catch (error) {
+      console.error(error);
+
+      // If the API call fails, revert the UI back to its previous state
+      // removeCartItemOffline(item.id)
   }
 }
 
