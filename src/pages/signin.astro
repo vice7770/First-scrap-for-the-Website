@@ -16,6 +16,16 @@ const urlHasRedirect = redirectUrl?.replace(/\//g, "") ? true : false;
 const newurl = urlHasRedirect ? "/api/auth/signin?" + url.searchParams.toString() : "/api/auth/signin";
 ---
 
+<script>
+	import Cookies from "js-cookie";
+	import { $cart, emptyCart } from "@/stores/cart";
+
+	const accessToken = Cookies.get("sb-access-token");
+	if(!accessToken){
+		$cart.set(emptyCart);
+	}
+</script>
+
 <Layout title={title}>
   <div class="flex justify-center items-center w-full h-full">
     <main class="flex-1 flex flex-col gap-4 items-center mb-14 justify-center gap-y-10">

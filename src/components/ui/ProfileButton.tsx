@@ -60,7 +60,7 @@ const ProfileButton = (props : ProfileButtonProps) => {
         <DropdownMenuItem className="cursor-pointer">Subscription</DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem className="cursor-pointer">
-          <a href="/api/auth/signout">Sign out</a>
+          <a href="/api/auth/signout" className="w-full">Sign out</a>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
