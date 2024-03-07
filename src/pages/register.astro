@@ -10,7 +10,8 @@ const title = "Register";
 	import { $cart, emptyCart } from "@/stores/cart";
 
 	const accessToken = Cookies.get("sb-access-token");
-	if(!accessToken){
+  const localCart = $cart.get();
+	if(!accessToken && localCart?.sessionId){
 		$cart.set(emptyCart);
 	}
 </script>

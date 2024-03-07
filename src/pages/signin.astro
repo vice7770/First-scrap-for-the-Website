@@ -21,7 +21,8 @@ const newurl = urlHasRedirect ? "/api/auth/signin?" + url.searchParams.toString(
 	import { $cart, emptyCart } from "@/stores/cart";
 
 	const accessToken = Cookies.get("sb-access-token");
-	if(!accessToken){
+  const localCart = $cart.get();
+  if(!accessToken && localCart?.sessionId){
 		$cart.set(emptyCart);
 	}
 </script>
