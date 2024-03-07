@@ -1,0 +1,5 @@
+import { atom } from "nanostores";
+
+export const $isCartFetched = atom<Boolean>(false);
+
+export const $isFavoritesFetched = atom<Boolean>(false);

@@ -129,9 +129,10 @@ export async function getCartItemsFromServer() {
       sessionId: $userSession.get()?.session_id,
     };
     const cartStore = $cart.get();
-    const idsToUpdate = cartStore?.lines.nodes.map((node) => node.id) || [];
     // If there are items selected in the frontend the data will be merged
-    if(cartStore?.totalQuantity && cartStore?.totalQuantity > 0){
+    let idsToUpdate : string[] = [];
+    if(cartStore?.totalQuantity && cartStore?.totalQuantity > 0 && (cartStore?.sessionId === "" || !cartStore.sessionId)){
+      idsToUpdate = cartStore?.lines.nodes.map((node) => node.id)
       const mergedNodes = cart_.lines.nodes as Node[];
       cartStore.lines.nodes.forEach((node) => {
         const nodeIndex = mergedNodes.findIndex((node_) => node_.id === node.id); 
@@ -150,22 +151,20 @@ export async function getCartItemsFromServer() {
             currencyCode: "USD",
           },
         },
-        totalQuantity: cartStore.totalQuantity + (cart_.totalQuantity || 0),
+        totalQuantity: (cartStore.totalQuantity || 0) + (cart_.totalQuantity || 0),
         lines: {
           nodes: mergedNodes,
         },
       };
     }
     $cart.set(cart_);
-    idsToUpdate.forEach((id) => {
-      postCartItemToServer({id});
-    })
+    if(idsToUpdate && idsToUpdate.length > 0) postCartItemToServer(idsToUpdate);
   } catch (error) {
       console.error(error)
   }
 }
 
-export async function postCartItemToServer(item: {id:string}) {
+export async function postCartItemToServer(idsToUpdate : string[]) {
   const localCart = $cart.get();
   try {
     const resShoppingSession = await fetch("/api/shoppingSession", {
@@ -178,15 +177,16 @@ export async function postCartItemToServer(item: {id:string}) {
     }
 
     const shoppingSession : ShoppingSession[] = await resShoppingSession.json();
-    const node : Node = findNode(localCart?.lines.nodes, item.id);
-    const resNodeList = await fetch("/api/nodeList", {
-        method: "POST",
-        body: JSON.stringify({ sessionId: shoppingSession[0].id, quantity: node.quantity, totalAmount: node.cost.subtotalAmount.amount ,itemId: item.id}),
-    });
-
-    if (!resNodeList.ok) {
+    await Promise.all(idsToUpdate.map(async (id) => {
+      const node : Node = findNode(localCart?.lines.nodes, id);
+      const resNodeList = await fetch("/api/nodeList", {
+          method: "POST",
+          body: JSON.stringify({ sessionId: shoppingSession[0].id, quantity: node.quantity, totalAmount: node.cost.subtotalAmount.amount ,itemId: id}),
+      });
+      if (!resNodeList.ok) {
         throw new Error("error at node list fetch");
-    }
+      }
+    }));
   } catch (error) {
       console.error(error);
 
@@ -233,7 +233,6 @@ export async function addCartItemOffline(item: { id: string; quantity: number, p
   const nodes = updateNodes(localCart, item, newQuantity);
   const subtotalAmount = addSubtotalAmount(localCart, item);
   const totalQuantity = addTotalQuantity(localCart, item);
-
   $cart.set({
     ...localCart,
     id: cartId,
@@ -248,6 +247,7 @@ export async function addCartItemOffline(item: { id: string; quantity: number, p
     lines: {
       nodes: nodes,
     },
+    sessionId: localCart?.sessionId ? localCart.sessionId : $userSession.get()?.session_id,
   });
 
   isCartUpdating.set(false);
