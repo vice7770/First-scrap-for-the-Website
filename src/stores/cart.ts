@@ -158,13 +158,13 @@ export async function getCartItemsFromServer() {
       };
     }
     $cart.set(cart_);
-    if(idsToUpdate && idsToUpdate.length > 0) postCartItemToServer(idsToUpdate);
+    if(idsToUpdate && idsToUpdate.length > 0) postCartItemsToServer(idsToUpdate);
   } catch (error) {
       console.error(error)
   }
 }
 
-export async function postCartItemToServer(idsToUpdate : string[]) {
+export async function postCartItemsToServer(idsToUpdate : string[]) {
   const localCart = $cart.get();
   try {
     const resShoppingSession = await fetch("/api/shoppingSession", {

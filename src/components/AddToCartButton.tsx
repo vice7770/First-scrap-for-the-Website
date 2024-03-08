@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import {Button} from "@/components/ui/button";
-import { addCartItemOffline, postCartItemToServer } from "@/stores/cart";
+import { addCartItemOffline, postCartItemsToServer } from "@/stores/cart";
 import { useDebouncedCallback } from 'use-debounce';
 
 // async function addToCart(item: {id: string, quantity: number, price: number, imageUrl: string, name: string}) {
@@ -11,7 +11,7 @@ import { useDebouncedCallback } from 'use-debounce';
 export default function AddToCartButton({id, quantity, price, imageUrl, name, isAuth}: {id: string, quantity: number, price: number, imageUrl: string, name: string, isAuth: boolean}) {
     const [isLoading, setIsLoading] = useState(true);
     const item = {id, quantity, price, imageUrl, name};
-    const debouncedPostCartItemToServer = useDebouncedCallback((value) => postCartItemToServer(value), 800);
+    const debouncedPostCartItemToServer = useDebouncedCallback((item : {id: string}) => postCartItemsToServer([item.id]), 800);
     useEffect(() => {
         setIsLoading(false);
         // if(!isAuth){
