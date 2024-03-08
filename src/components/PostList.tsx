@@ -10,7 +10,7 @@ function PostList({posts}: {posts: any}) {
 
     if (isLoading) {
         return (
-            <ul className="flex flex-wrap justify-between">
+            <ul className="flex flex-wrap w-full h-full">
             {
                 posts?.map((post: any, index: React.Key | null | undefined) => (
                     <li key={index} className="w-1/3 px-2">
@@ -25,7 +25,7 @@ function PostList({posts}: {posts: any}) {
         )
     }
     return (
-        <ul className="flex flex-wrap justify-between">
+        <ul className="flex flex-wrap w-full h-full">
             {
                 posts?.map((post) => (
                     <li className="w-1/3 px-2">

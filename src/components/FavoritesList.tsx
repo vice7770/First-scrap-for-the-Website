@@ -17,7 +17,7 @@ function PostList({favorites}: {favorites: any}) {
         // setIsLoading(false);
     }, []);
     return (
-        <ul className="flex flex-wrap w-full h-[613px]">
+        <ul className="flex flex-wrap w-full h-full">
             {
                 filteredFavorites.length > 0 ? filteredFavorites?.map((post, index) => (
                     <li key={index} className="w-1/3 px-2">
