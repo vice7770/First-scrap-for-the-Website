@@ -2,15 +2,20 @@ import React, { useEffect, useState } from "react";
 import { Skeleton } from "./ui/skeleton";
 import { $favorites, getFavorites } from "@/stores/favorites";
 import { useStore } from "@nanostores/react";
+import { $isFavoritesFetched } from "@/stores/isDataFetched";
 
 function PostList({favorites}: {favorites: any}) {
-    const [isLoading, setIsLoading] = useState(true);
+    // const [isLoading, setIsLoading] = useState(true);
     const favoriteIds = useStore($favorites);
+    const isFavoritesFetched = useStore($isFavoritesFetched);
     const filteredFavorites = favorites.filter((post: any) => favoriteIds?.includes(post.data.id));
     useEffect(() => {
-        getFavorites();
+        if(!isFavoritesFetched){
+            getFavorites();
+            $isFavoritesFetched.set(true);
+        }
         // setIsLoading(false);
-    }, [favoriteIds]);
+    }, []);
     return (
         <ul className="flex flex-wrap w-full h-[613px]">
             {
