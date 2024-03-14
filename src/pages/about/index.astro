@@ -1,18 +1,19 @@
 ---
 import Layout from '@/layouts/MainLayout.astro';
 import FormattedDate from "../../components/FormattedDate.astro";
-const heroImage="/about/blog-image.jpg"
-const title="About Me"
+import AboutUsImage from "../../components/AboutUsImage.tsx";
+const heroImage="/about/blog-image.jpg" //90K image size
+const title="About Us"
 ---
 
 <Layout
 	title="About Me"
-	description="About Me"
+	description="About Us"
 >
 	<main>
 		<article>
 			<div class="hero-image">
-				{heroImage && <img width={1020} height={510} src={heroImage} alt="" />}
+				<AboutUsImage client:load/>
 			</div>
 			<div class="prose">
 				<div class="title">
