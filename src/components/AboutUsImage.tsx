@@ -1,6 +1,7 @@
 import React from "react";
 import {Cloudinary} from "@cloudinary/url-gen";
 import {AdvancedImage} from '@cloudinary/react';
+import { quality } from "@cloudinary/url-gen/actions/delivery";
  
 const AboutUsImage = () => {
     const cld = new Cloudinary({
@@ -9,7 +10,7 @@ const AboutUsImage = () => {
         }
     });
     
-    const myImage = cld.image('AboutUsImage');
+    const myImage = cld.image('AboutUsImage').delivery(quality('auto:good'));
     return (
         <div className="flex justify-center">
             <AdvancedImage cldImg={myImage}/>
