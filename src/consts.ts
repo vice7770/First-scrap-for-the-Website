@@ -1,6 +1,8 @@
 // Place any global data in this file.
 // You can import this data from anywhere in your site by using the `import` keyword.
 
+import { Cloudinary } from "@cloudinary/url-gen/index";
+
 export type Partner = {
     id: number;
     name: string;
@@ -46,3 +48,9 @@ export const partners : Partner[] = [
         y: 40
     }
 ];
+
+export const cld = new Cloudinary({
+    cloud: {
+      cloudName: "db4cnkv8l"
+    }
+});

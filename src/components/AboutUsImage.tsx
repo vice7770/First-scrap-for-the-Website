@@ -1,18 +1,13 @@
 import React from "react";
 import {Cloudinary} from "@cloudinary/url-gen";
 import {AdvancedImage} from '@cloudinary/react';
-import { quality } from "@cloudinary/url-gen/actions/delivery";
- 
-const AboutUsImage = () => {
-    const cld = new Cloudinary({
-        cloud: {
-          cloudName: "db4cnkv8l"
-        }
-    });
-    
-    const myImage = cld.image('AboutUsImage').delivery(quality('auto:good'));
+import { format, quality } from "@cloudinary/url-gen/actions/delivery";
+import { cld } from "@/consts";
+import { auto } from "@cloudinary/url-gen/qualifiers/format";
+const AboutUsImage = () => {  
+    const myImage = cld.image('AboutUsImage').delivery(quality('auto:good')).delivery(format(auto()));
     return (
-        <div className="flex justify-center">
+        <div className="flex justify-center pointer-events-none h-full">
             <AdvancedImage cldImg={myImage}/>
         </div>
     )
