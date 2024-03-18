@@ -3,6 +3,7 @@ import HeaderLink from './HeaderLink.astro';
 import { SITE_TITLE, SITE_URL } from '../consts';
 import CartIcon from './CartIcon';
 import ProfileButton from './ui/ProfileButton';
+import LogoImage from "@/components/LogoImage";
 
 const headerLinks = [
 	{ href: '/', text: 'Home' },
@@ -45,7 +46,7 @@ const favoritesUrl = newUrlFavorite.toString();
 		<div class="flex justify-start h-max-full ">
 			<a class="flex items-center justify-center p-0 !p-0 " href="/">
 				<span class="sr-only">Georgia</span>
-				<img src="/georgia-flag.png" alt="GeorgiaFlag" width="96" draggable="false"/>
+				<LogoImage client:load/>
 			</a>
 		</div>
 		<div class="flex justify-center internal-links">
