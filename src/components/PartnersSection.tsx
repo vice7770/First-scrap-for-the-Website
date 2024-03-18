@@ -7,12 +7,16 @@ import { partners, type Partner } from '@/consts';
 import { $selectedPartner, setSelectedPartner } from '../stores/partnerSelected';
 import { CarouselHomePartners } from "./ui/carouselHomePartners";
 
+import {AdvancedImage} from '@cloudinary/react';
+import { format, quality } from "@cloudinary/url-gen/actions/delivery";
+import { cld } from "@/consts";
+import { auto } from "@cloudinary/url-gen/qualifiers/format";
+import type { CloudinaryImage } from "@cloudinary/url-gen/index";
+import { fill } from "@cloudinary/url-gen/actions/resize";
 
-const georgiaPartnersImage = "/georgia-map-partners.png";
-const mapPin = "map-pin.png";
 
 type Props = {
-    georgiaPartnersImage : string;
+    georgiaPartnersImage : CloudinaryImage;
 };
   
 const PartnersMap = (props : Props) => {
@@ -28,11 +32,14 @@ const PartnersMap = (props : Props) => {
   function handlePinClick( pin : Partner ) {
     setSelectedPartner(pin);
   }
+  const pinImage = cld.image('Pin').delivery(quality('auto:good')).resize(fill().width(32)).delivery(format(auto()));
   
   return (
     <div className="relative">
         <div ref={ref} className="flex items-center justify-center bg-center bg-cover">
-            {georgiaPartnersImage && <img ref={refImage} draggable="false" src={georgiaPartnersImage} alt=""/>}  
+            <div ref={refImage} className="flex justify-center pointer-events-none h-full">
+              <AdvancedImage cldImg={georgiaPartnersImage}/>
+            </div>
         </div>
         {isVisible && (
           partners.map((pin: Partner) => (
@@ -44,7 +51,7 @@ const PartnersMap = (props : Props) => {
                 top: offsetTop + ((pin.y / 100) * height),
               }}
             >
-              <img className={` ${pin.id === selectedPartner?.id ? 'pin-selected' : 'pin-image'}`} draggable="false" src={mapPin} alt="" width="32" height="32" onClick={() => handlePinClick(pin)}/>
+              <AdvancedImage cldImg={pinImage} className={` ${pin.id === selectedPartner?.id ? 'pin-selected' : 'pin-image'} pointer-events-none`} onClick={() => handlePinClick(pin)}/>
             </div>
           ))
         )}
@@ -54,6 +61,8 @@ const PartnersMap = (props : Props) => {
 
 const PartnersSection = () => {
   const [isLoading, setIsLoading] = useState(true);
+  const myImage = cld.image('GeorgiaPartnersImage').delivery(quality('auto:good')).delivery(format(auto()));
+
   useEffect(() => {
     setIsLoading(false);
   }, []);
@@ -66,7 +75,9 @@ const PartnersSection = () => {
           </h2>
           <div className="relative">
             <div className="flex items-center justify-center bg-center bg-cover">
-                {georgiaPartnersImage && <img draggable="false" src={georgiaPartnersImage} alt=""/>}  
+                <div className="flex justify-center pointer-events-none h-full">
+                  <AdvancedImage cldImg={myImage}/>
+                </div>
             </div>
           </div>
           <div className="flex items-center justify-center h-[350px] p-4 mb-8"/>
@@ -79,7 +90,7 @@ const PartnersSection = () => {
       <h2 className="text-4xl font-semibold text-center text-gray-800 tracking-wide leading-relaxed">
         Meet our partners
       </h2>
-      <PartnersMap georgiaPartnersImage={georgiaPartnersImage}/>
+      <PartnersMap georgiaPartnersImage={myImage}/>
       <div className="flex items-center justify-center p-4 mb-8">
         <CarouselHomePartners/>
       </div>
