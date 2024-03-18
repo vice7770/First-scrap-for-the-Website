@@ -9,7 +9,7 @@ const HeroImage = () => {
     const heroImage = cld.image('HeroImage').delivery(quality('auto:eco')).delivery(format(auto()));
     return (
         <div className="flex justify-center pointer-events-none w-full h-full">
-            <AdvancedImage cldImg={heroImage} class="w-full h-full"/>
+            <AdvancedImage cldImg={heroImage} className="w-full h-full"/>
         </div>
     )
 }

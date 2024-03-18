@@ -33,7 +33,6 @@ const PartnersMap = (props : Props) => {
     setSelectedPartner(pin);
   }
   const pinImage = cld.image('Pin').delivery(quality('auto:good')).resize(fill().width(32)).delivery(format(auto()));
-  
   return (
     <div className="relative">
         <div ref={ref} className="flex items-center justify-center bg-center bg-cover">
@@ -51,39 +50,39 @@ const PartnersMap = (props : Props) => {
                 top: offsetTop + ((pin.y / 100) * height),
               }}
             >
-              <AdvancedImage cldImg={pinImage} className={` ${pin.id === selectedPartner?.id ? 'pin-selected' : 'pin-image'} pointer-events-none`} onClick={() => handlePinClick(pin)}/>
+              <AdvancedImage cldImg={pinImage} className={` ${pin.id === selectedPartner?.id ? 'pin-selected' : 'pin-image'}`} onClick={() => handlePinClick(pin)}/>
             </div>
           ))
         )}
     </div>
   )
-  }
+}
 
 const PartnersSection = () => {
-  const [isLoading, setIsLoading] = useState(true);
+  // const [isLoading, setIsLoading] = useState(true);
   const myImage = cld.image('GeorgiaPartnersImage').delivery(quality('auto:good')).delivery(format(auto()));
 
-  useEffect(() => {
-    setIsLoading(false);
-  }, []);
+  // useEffect(() => {
+  //   setIsLoading(false);
+  // }, []);
 
-  if (isLoading) {
-      return (
-        <div>
-          <h2 className="text-4xl font-semibold text-center text-gray-800 tracking-wide leading-relaxed">
-            Meet our partners
-          </h2>
-          <div className="relative">
-            <div className="flex items-center justify-center bg-center bg-cover">
-                <div className="flex justify-center pointer-events-none h-full">
-                  <AdvancedImage cldImg={myImage}/>
-                </div>
-            </div>
-          </div>
-          <div className="flex items-center justify-center h-[350px] p-4 mb-8"/>
-        </div>
-      )
-  }
+  // if (isLoading) {
+  //     return (
+  //       <div>
+  //         <h2 className="text-4xl font-semibold text-center text-gray-800 tracking-wide leading-relaxed">
+  //           Meet our partners
+  //         </h2>
+  //         <div className="relative">
+  //           <div className="flex items-center justify-center bg-center bg-cover">
+  //               <div className="flex justify-center pointer-events-none h-full">
+  //                 <AdvancedImage cldImg={myImage}/>
+  //               </div>
+  //           </div>
+  //         </div>
+  //         <div className="flex items-center justify-center h-[350px] p-4 mb-8"/>
+  //       </div>
+  //     )
+  // }
 
   return (
     <div>
