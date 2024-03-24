@@ -35,4 +35,19 @@ const shop = defineCollection({
 	}),
 });
 
-export const collections = { blog, mainLayout, shop };
+const shopApi = defineCollection({
+	type: 'data',
+	schema: z.object({
+		id: z.number(), // Unique ID
+		name: z.string(),
+		description: z.string(),
+		public_id: z.string(),
+		price: z.number(),
+		created_at: z.coerce.date(),
+		created_by: z.string(),
+		expired: z.boolean(),
+		hidden: z.boolean(),
+	}),
+});
+
+export const collections = { blog, mainLayout, shop, shopApi };

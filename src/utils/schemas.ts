@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { object, z } from "zod";
 
 export const MoneyV2Result = z.object({
     amount: z.string(),
@@ -41,3 +41,15 @@ export const userSession = z.object({
   iat: z.number(),
   exp: z.number(),
 }).nullable();
+
+export const shopResult = z.array(object({
+		id: z.number(),
+		name: z.string(),
+		description: z.string(),
+		public_id: z.string(),
+		price: z.number(),
+		created_at: z.coerce.date(),
+		created_by: z.string(),
+		expired: z.boolean(),
+		hidden: z.boolean(),
+})).nullable();
