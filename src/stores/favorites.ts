@@ -40,7 +40,6 @@ export async function getFavorites() {
 
 export async function setFavorites(id: number) {
     const currentFavorites = new Set($favorites.get() || []);
-    
     if (currentFavorites.has(id)) {
       currentFavorites.delete(id);
     } else {
