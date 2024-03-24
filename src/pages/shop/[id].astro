@@ -1,0 +1,32 @@
+---
+import { type CollectionEntry, getCollection, getEntry } from 'astro:content';
+import ShopPost from '../../layouts/ShopPost.astro';
+import { SITE_URL } from '../../consts';
+import { shopResult } from '../../utils/schemas'
+import type { z } from 'zod';
+
+type ShopData = z.infer<typeof shopResult>;
+
+// const postsData = await getEntries(data);
+
+const res = await fetch(SITE_URL + "/api/shop", {
+	method: "GET",
+});
+const data : ShopData = await res.json();
+
+const {id} = Astro.params;
+
+if (!data && !id) {
+  return Astro.redirect("/404");
+}
+
+const idInt = parseInt(id!); 
+const post = data?.find((post) => post.id === idInt);
+
+if (!post) {
+  return Astro.redirect("/404");
+}
+
+
+---
+<ShopPost {...post}/>

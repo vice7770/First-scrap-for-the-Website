@@ -9,9 +9,14 @@ import { ViewTransitions } from 'astro:transitions';
 import AddToFavoritesButton from '@/components/AddToFavoritesButton.tsx';
 import { supabase } from '@/lib/supabase';
 
-type Props = CollectionEntry<'shop'>['data'];
+import { cld } from "@/consts";
+import { format, quality } from "@cloudinary/url-gen/actions/delivery";
+import { scale } from "@cloudinary/url-gen/actions/resize";
+import { auto } from "@cloudinary/url-gen/qualifiers/format";
 
-const { id, name, description, created_at, modified_at, image, available, price } = Astro.props;
+// type Props = CollectionEntry<'shopApi'>['data'];
+
+const { id, name, description, public_id, price, created_at, expired, hidden } = Astro.props;
 
 const { data : userData } = await supabase.auth.getUser();
 
@@ -21,6 +26,11 @@ const isAuth = !!email;
 const { url } = Astro.request;
 const newUrl = new URL(url);
 const redirectUrlParam = newUrl.searchParams.get('redirectUrl');
+
+
+const image = cld.image(public_id).delivery(quality('auto:eco')).delivery(format(auto()));
+image.resize(scale().width(650).height(650).aspectRatio("1.0"));
+const urlImage = image.toURL();
 
 ---
 
@@ -33,19 +43,18 @@ const redirectUrlParam = newUrl.searchParams.get('redirectUrl');
 		<Header />
 		<main class="flex">
 			<div class="w-1/2 h-[960px]">
-				{image && <img class="w-full h-auto" draggable='false' src={image} alt="" transition:name={"imageShop" + id}/>}
+				{public_id && <img class="w-full h-auto" draggable='false' src={urlImage} alt="" transition:name={"imageShop" + id}/>}
 			</div>
 			<div class="w-1/2 p-4">
 				<h1 class="text-2xl mb-2">{name}</h1>
 				<p class="text-sm text-gray-500 mb-4">
-					<FormattedDate date={created_at} />
-					{modified_at && <span>Last updated on <FormattedDate date={modified_at} /></span>}
+					<FormattedDate date={new Date(created_at)} />
 				</p>
 				<p class="text-lg mb-4">${price}</p>
-				<p class={available ? "text-green-500 mb-4" : "text-red-500"}>{available ? 'In Stock' : 'Out of Stock'}</p>
+				<p class={expired ? "text-green-500 mb-4" : "text-red-500"}>{expired ? 'In Stock' : 'Out of Stock'}</p>
 				<!-- <button class="bg-blue-500 text-white px-4 py-2 rounded mb-2" @click={handleClick}>Add to Cart</button> -->
 				<div class="flex flex-col w-2/3">
-					<AddToCartButton client:load id={id.toString()} quantity={1} price={price} imageUrl={image} name={name} isAuth={isAuth}/>
+					<AddToCartButton client:load id={id.toString()} quantity={1} price={price} imageUrl={public_id} name={name} isAuth={isAuth}/>
 					<AddToFavoritesButton client:load id={id} isAuth={isAuth}/>
 				</div>
 			</div>
