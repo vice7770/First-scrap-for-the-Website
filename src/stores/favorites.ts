@@ -29,12 +29,9 @@ export async function initFavorites() {
 }
 
 export async function getFavorites() {
-    const favorites = $favorites.get();
-    if (!favorites) {
-        const favorites = await initFavorites();
-        const favoriteIds = favorites.map(favorite => favorite.item_id);
-        $favorites.set(favoriteIds);
-    }
+    const favorites = await initFavorites();
+    const favoriteIds = favorites.map(favorite => favorite.item_id);
+    $favorites.set(favoriteIds);
     return $favorites.get();
 }
 
