@@ -2,17 +2,33 @@
 import Layout from '../../layouts/MainLayout.astro';
 
 import { getCollection } from 'astro:content';
-import PostListAstro from '@/components/PostListAstro.astro';
-import { getFavorites } from '@/stores/favorites';
 import FavoritesList from '@/components/FavoritesList';
+import { SITE_URL } from '@/consts';
+import type { shopResult } from '@/utils/schemas';
+import type { z } from 'zod';
 
-// Need to explore ssr option for this
+type ShopData = z.infer<typeof shopResult>;
 
-// const shopPosts = (await getCollection('shop'));
+// const favorites = (await getCollection('shop')).sort(
+// 	(a, b) => a.data.created_at.valueOf() - b.data.created_at.valueOf()
+// )
+const res = await fetch(SITE_URL + "/api/favoritesFromShop", {
+		method: "GET",
+	});
+const data : ShopData = await res.json();
 
-const favorites = (await getCollection('shop')).sort(
-	(a, b) => a.data.created_at.valueOf() - b.data.created_at.valueOf()
-);
+export async function getStaticPaths() {
+	const res = await fetch(SITE_URL + "/api/favoritesFromShop", {
+		method: "GET",
+	});
+	const data : ShopData = await res.json();
+	return data?.map((post) => {
+		return {
+		params: { id: post.id },
+		props: { post },
+		};
+	});
+}
 
 ---
 
@@ -26,7 +42,7 @@ const favorites = (await getCollection('shop')).sort(
 				<h2 >Favorites</h2>
 			</div>
 			<!-- <PostListAstro posts={favoritePosts} /> -->
-			<FavoritesList client:load favorites={favorites} />
+			<FavoritesList client:load favorites={data} />
 		</section>
 	</main>	
 </Layout>
