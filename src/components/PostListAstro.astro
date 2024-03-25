@@ -5,7 +5,7 @@ import { scale } from "@cloudinary/url-gen/actions/resize";
 import { auto } from "@cloudinary/url-gen/qualifiers/format";
 
 const { posts } = Astro.props;
-const urlImages = posts.map((post) => {
+const urlImages = posts?.map((post) => {
     const image = cld.image(post.public_id).delivery(quality('auto:eco')).delivery(format(auto()));
     image.resize(scale().width(650).height(650).aspectRatio("1.0"));
     return image.toURL();
