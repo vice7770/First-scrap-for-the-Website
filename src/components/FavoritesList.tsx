@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Skeleton } from "./ui/skeleton";
-import { $favorites, getFavorites } from "@/stores/favorites";
+import { $favorites } from "@/stores/favorites";
 import { useStore } from "@nanostores/react";
 import { $isFavoritesFetched } from "@/stores/isDataFetched";
 import type { shopResult } from "@/utils/schemas";
@@ -40,12 +40,7 @@ function FavoritesList({favorites}: {favorites: ShopData}) {
 function PostList({favorites}: {favorites: ShopData}) {
     // const [isLoading, setIsLoading] = useState(true);
     const favoriteIds = useStore($favorites);
-    const isFavoritesFetched = useStore($isFavoritesFetched);
     useEffect(() => {
-        if(!isFavoritesFetched){
-            getFavorites();
-            $isFavoritesFetched.set(true);
-        }
         // setIsLoading(false);
     }, []);
     return (

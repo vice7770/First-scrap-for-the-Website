@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { $favorites, $pendingFavorite, addPendingFavorite, cleanFavorites, cleanPendingFavorite, getFavorites, setFavorites } from "@/stores/favorites";
+import { $favorites, $pendingFavorite, addPendingFavorite, cleanPendingFavorite, setFavorites } from "@/stores/favorites";
 import { useStore } from "@nanostores/react";
 import { $isFavoritesFetched } from "@/stores/isDataFetched";
 
@@ -56,27 +56,18 @@ export default function AddToFavoritesButton({ id, isAuth }: { id: number, isAut
   const [isLoading, setIsLoading] = useState(true);
   const favorites = useStore($favorites);
   const pendingFavorite = useStore($pendingFavorite);
-  const isFavoritesFetched = useStore($isFavoritesFetched);
   useEffect(() => {
     setIsLoading(false);
-    if(!isAuth){
-      cleanFavorites();
-      return;
-    }
-    if(!isFavoritesFetched){
-      getFavorites();
-      $isFavoritesFetched.set(true);
-    }
   }, []);
 
   useEffect(() => {
     if(!pendingFavorite || !favorites) return;
     const contains = favorites?.includes(pendingFavorite);
     if (!contains) {
-      setFavorites(pendingFavorite as number);
+      addToFavorites(pendingFavorite as number);
     }
     cleanPendingFavorite();
-  }, [favorites]);
+  }, [favorites, pendingFavorite]);
 
   const handleAddToFavorites = async (id: number) => {
     try {
