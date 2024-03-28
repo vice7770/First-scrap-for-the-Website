@@ -340,7 +340,7 @@ function createNode(item: any, quantity: number) {
     },
     quantity: quantity,
     imageUrl: item.imageUrl,
-    title: item.title,
+    title: item.name,
   };
 }
 
