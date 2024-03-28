@@ -6,13 +6,13 @@ export const GET: APIRoute = async ({ url }) => {
   const intSessionId = parseInt(sessionId || '');
   const { data, error } = await supabase
     .from('node_list')
-    .select('*')
-    // .select(`
-    //   *,
-    //   shop:item_id (
-    //     name
-    //   )
-    // `)
+    // .select('*')
+    .select(`
+      *,
+      shop:item_id (
+        name
+      )
+    `)
     .eq('session_id', sessionId);
   if (error) {
     return new Response(
