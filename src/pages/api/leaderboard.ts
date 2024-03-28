@@ -15,7 +15,6 @@ export const GET: APIRoute = async ({ request }) => {
       { status: 500 },
     );
   }
-
   const { data, error } = await supabase
     .from('shop')
     .select('*')
@@ -28,5 +27,10 @@ export const GET: APIRoute = async ({ request }) => {
       { status: 500 },
     );
   }
-  return new Response(JSON.stringify(data));
+
+  const orderedData = leaderboardData.map((entry) => {
+    return data.find((item) => item.id === entry.item_id);
+  });
+
+  return new Response(JSON.stringify(orderedData));
 }
