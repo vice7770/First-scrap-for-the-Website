@@ -38,7 +38,7 @@ export function CarouselHomeItem({ trendItems }: { trendItems: ShopData }) {
                 <a href={`/shop/${item.id}/`}>
                 <div className="relative">
                   <img src={urlImages[index]} draggable='false' alt={item.name} className="w-full" />
-                  <h4 className="absolute top-0 left-0 p-4 bg-transparent text-black flex items-center justify-center">
+                  <h4 className="absolute top-0 left-0 p-4 bg-transparent text-white flex items-center justify-center">
                     {item.name}
                   </h4>
                 </div>
