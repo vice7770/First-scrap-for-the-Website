@@ -45,5 +45,8 @@ export type NodeList = {
     quantity: number;
     user_id: string;
     item_id: number;
+    shop: {
+        name: string;
+    };
 };
 

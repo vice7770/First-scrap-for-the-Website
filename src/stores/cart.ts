@@ -122,7 +122,7 @@ export async function getCartItemsFromServer() {
                 },
                 quantity: node.quantity,
                 imageUrl: "https://via.placeholder.com/150",
-                title: "Product",
+                title: node.shop.name,
             };
           }),
         },
