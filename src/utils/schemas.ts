@@ -53,3 +53,6 @@ export const shopResult = z.array(object({
 		expired: z.boolean(),
 		hidden: z.boolean(),
 })).nullable();
+
+export type ShopData = z.infer<typeof shopResult>;
+

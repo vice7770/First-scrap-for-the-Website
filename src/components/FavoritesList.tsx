@@ -3,16 +3,12 @@ import { Skeleton } from "./ui/skeleton";
 import { $favorites } from "@/stores/favorites";
 import { useStore } from "@nanostores/react";
 import { $isFavoritesFetched } from "@/stores/isDataFetched";
-import type { shopResult } from "@/utils/schemas";
-import type { z } from "zod";
+import type { ShopData } from "@/utils/schemas";
 
 import { cld } from "@/consts";
 import { format, quality } from "@cloudinary/url-gen/actions/delivery";
 import { scale } from "@cloudinary/url-gen/actions/resize";
 import { auto } from "@cloudinary/url-gen/qualifiers/format";
-
-
-type ShopData = z.infer<typeof shopResult>;
 
 function FavoritesList({favorites}: {favorites: ShopData}) {
     const urlImages = favorites?.map((favorite) => {

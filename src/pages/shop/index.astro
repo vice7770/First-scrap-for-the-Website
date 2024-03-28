@@ -1,14 +1,9 @@
 ---
-import PostList from '@/components/PostList';
 import Layout from '../../layouts/MainLayout.astro';
 
-import { getCollection, getEntries } from 'astro:content';
 import PostListAstro from '@/components/PostListAstro.astro';
 import { SITE_URL } from '@/consts';
-import { shopResult } from '@/utils/schemas'
-import type { z } from 'zod';
-
-type ShopData = z.infer<typeof shopResult>;
+import { type ShopData } from '@/utils/schemas'
 
 const res = await fetch(SITE_URL + "/api/shop", {
 	method: "GET",

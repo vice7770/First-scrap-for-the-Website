@@ -4,17 +4,14 @@ import Layout from '../../layouts/MainLayout.astro';
 import { getCollection } from 'astro:content';
 import FavoritesList from '@/components/FavoritesList';
 import { SITE_URL } from '@/consts';
-import type { shopResult } from '@/utils/schemas';
-import type { z } from 'zod';
-
-type ShopData = z.infer<typeof shopResult>;
+import type { ShopData } from '@/utils/schemas';
 
 // const favorites = (await getCollection('shop')).sort(
 // 	(a, b) => a.data.created_at.valueOf() - b.data.created_at.valueOf()
 // )
 const res = await fetch(SITE_URL + "/api/favoritesFromShop", {
-		method: "GET",
-	});
+	method: "GET",
+});
 const data : ShopData = await res.json();
 
 export async function getStaticPaths() {

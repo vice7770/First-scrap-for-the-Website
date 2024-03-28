@@ -2,11 +2,7 @@
 import { type CollectionEntry, getCollection, getEntry } from 'astro:content';
 import ShopPost from '../../layouts/ShopPost.astro';
 import { SITE_URL } from '../../consts';
-import { shopResult } from '../../utils/schemas'
-import type { z } from 'zod';
-
-type ShopData = z.infer<typeof shopResult>;
-
+import { type ShopData } from '../../utils/schemas'
 // const postsData = await getEntries(data);
 
 const res = await fetch(SITE_URL + "/api/shop", {

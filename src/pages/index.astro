@@ -1,12 +1,13 @@
 ---
 import Layout from "@/layouts/MainLayout.astro";
-import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
+import { SITE_TITLE, SITE_DESCRIPTION, SITE_URL } from "../consts";
 // import heroImage from '../../public/blog-placeholder-about.jpg';
 const heroImage = "/hero-image.jpg";
 import { CarouselHomeItem } from "@/components/ui/carouselHomeItems";
 import HeroImage from "@/components/HeroImage";
 import { supabase } from "../lib/supabase";
 import PartnersSection from "@/components/PartnersSection";
+import type { ShopData } from "@/utils/schemas";
 
 const { cookies, redirect } = Astro;
 
@@ -33,15 +34,11 @@ const { data } = await supabase.auth.setSession({
 //   return redirect("/");
 // }
 
-import { getCollection } from "astro:content";
+const resTrendItemsId = await fetch(SITE_URL + "/api/leaderboard", {
+  method: "GET",
+});
+const dataTrendItemsId : ShopData = await resTrendItemsId.json();
 
-const trendItemsId = [1, 2, 3, 4, 5];
-
-const posts = (await getCollection("shop")).sort(
-  (a, b) => a.data.created_at.valueOf() - b.data.created_at.valueOf()
-);
-
-const trendItems = posts.filter((post) => trendItemsId.includes(post.data.id));
 ---
 
 <Layout>
@@ -97,7 +94,7 @@ const trendItems = posts.filter((post) => trendItemsId.includes(post.data.id));
           Trending Products
         </h2>
         <div class="mb-8 flex items-center justify-center p-4">
-          <CarouselHomeItem trendItems={trendItems} client:visible />
+          <CarouselHomeItem trendItems={dataTrendItemsId} client:visible />
         </div>
       </div>
       <!-- <div class="flex w-5/6 h-[450px]">
