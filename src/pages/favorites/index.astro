@@ -2,7 +2,7 @@
 import Layout from '../../layouts/MainLayout.astro';
 
 import { getCollection } from 'astro:content';
-import FavoritesList from '@/components/FavoritesList';
+import FavoritesList from '@/components/FavoritesListAstro.astro';
 import { SITE_URL } from '@/consts';
 import type { ShopData } from '@/utils/schemas';
 
@@ -39,7 +39,7 @@ export async function getStaticPaths() {
 				<h2 >Favorites</h2>
 			</div>
 			<!-- <PostListAstro posts={favoritePosts} /> -->
-			<FavoritesList client:load favorites={data} />
+			<FavoritesList favorites={data} />
 		</section>
 	</main>	
 </Layout>
