@@ -12,20 +12,23 @@ import type { ShopData } from '@/utils/schemas';
 const res = await fetch(SITE_URL + "/api/favoritesFromShop", {
 	method: "GET",
 });
-const data : ShopData = await res.json();
+const data : ShopData = await res.json().catch((err) => {
+	console.error(err);
+	return [];
+});
 
-export async function getStaticPaths() {
-	const res = await fetch(SITE_URL + "/api/favoritesFromShop", {
-		method: "GET",
-	});
-	const data : ShopData = await res.json();
-	return data?.map((post) => {
-		return {
-		params: { id: post.id },
-		props: { post },
-		};
-	});
-}
+// export async function getStaticPaths() {
+// 	const res = await fetch(SITE_URL + "/api/favoritesFromShop", {
+// 		method: "GET",
+// 	});
+// 	const data : ShopData = await res.json();
+// 	return data?.map((post) => {
+// 		return {
+// 		params: { id: post.id },
+// 		props: { post },
+// 		};
+// 	});
+// }
 
 ---
 
@@ -40,6 +43,7 @@ export async function getStaticPaths() {
 			</div>
 			<!-- <PostListAstro posts={favoritePosts} /> -->
 			<FavoritesList favorites={data} />
+			<h1>{data}</h1>
 		</section>
 	</main>	
 </Layout>
