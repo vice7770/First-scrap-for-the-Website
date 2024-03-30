@@ -1,7 +1,7 @@
 import { useEffect, useState} from "react";
 import { useStore } from "@nanostores/react";
 
-import { $cart, emptyCart, getCartItemsFromServer,  } from "@/stores/cart";
+import { $cart, emptyCart, getCartItemsFromServer } from "@/stores/cart";
 import { $isCartFetched } from "@/stores/isDataFetched";
 import { $trendItems } from "@/stores/trendItems";
 
