@@ -18,13 +18,13 @@ const FavoriteIcon = ({email, favoritesUrl} : {email : string, favoritesUrl : st
     const [isLoading, setIsLoading] = useState(true);
     useEffect(() => {
         const isFetched = $isFavoritesFetched.get();
-        if(!isFetched && email) {
-            getFavorites()
-            $isFavoritesFetched.set(true);
-        }
         if(!email){
             cleanFavorites();
             return;
+        }
+        if(!isFetched && email) {
+            getFavorites()
+            $isFavoritesFetched.set(true);
         }
     }, []);
     return (

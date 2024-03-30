@@ -1,8 +1,9 @@
 import { useEffect, useState} from "react";
 import { useStore } from "@nanostores/react";
 
-import { $cart, getCartItemsFromServer } from "@/stores/cart";
+import { $cart, emptyCart, getCartItemsFromServer,  } from "@/stores/cart";
 import { $isCartFetched } from "@/stores/isDataFetched";
+import { $trendItems } from "@/stores/trendItems";
 
 const CartComponent = ({numberOfItems} : {numberOfItems: number | null}) => {
     return (
@@ -41,6 +42,11 @@ const CartIcon = ({sessionId} : {sessionId:string}) => {
     useEffect(() => {
         const isFetched = $isCartFetched.get();
         setIsLoading(false);
+        if(!sessionId){
+            $cart.set(emptyCart);
+            $trendItems.set(null);
+            return;
+        }
         if(!isFetched && sessionId) {
             getCartItemsFromServer()
             $isCartFetched.set(true);
