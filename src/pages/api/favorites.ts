@@ -14,9 +14,10 @@ import { supabase } from "../../lib/supabase";
 //     return data;
 // }
 
-export const GET: APIRoute = async ({ request }) => {
-  const { data : userData } = await supabase.auth.getUser();
-  const userId = userData?.user?.id;
+export const GET: APIRoute = async () => {
+  // const { data : userData } = await supabase.auth.getUser();
+  // const userId = userData?.user?.id;
+  const userId = '96716ef6-712f-4fc2-9de2-60db414fcc81';
   const { data, error } = await supabase
     .from('favorites')
     .select('item_id')
