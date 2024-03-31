@@ -32,9 +32,9 @@ export const onRequest = defineMiddleware(
   async ({ locals, url, cookies, redirect }, next) => {
     const accessToken = cookies.get("sb-access-token");
     const refreshToken = cookies.get("sb-refresh-token");
-    const { data, error } = await supabase.auth.getUser();
-    if (data && data.user?.id !== undefined ) {
-      locals.user = data.user.id;
+    const { data, error } = await supabase.auth.getSession();
+    if (data && data.session?.user.id !== undefined ) {
+      locals.user = data.session?.user.id;
     }
     if (!accessToken || !refreshToken) {
       cleanCookies(cookies);
