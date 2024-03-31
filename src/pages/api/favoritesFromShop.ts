@@ -1,11 +1,10 @@
 import type { APIRoute } from "astro";
 import { supabase } from "../../lib/supabase";
 
-export const GET: APIRoute = async ({ request }) => {
-  const { userId } = await request.json();
-  //   const { data: userData } = await supabase.auth.getUser();
+export const GET: APIRoute = async ({ url }) => {
+  const userId = await url.searchParams.get('userId');
+    //   const { data: userData } = await supabase.auth.getUser();
   // const userId = userData?.user?.id;
-
   if (!userId) {
     return new Response(
       JSON.stringify({
