@@ -1,11 +1,10 @@
 import type { APIRoute } from "astro";
 import { supabase } from "../../lib/supabase";
 
-export const GET: APIRoute = async ({ url }) => {
-  const userId = await url.searchParams.get('userId');
-    //   const { data: userData } = await supabase.auth.getUser();
+export const GET: APIRoute = async ({ locals }) => {
+  // const { data: userData } = await supabase.auth.getUser();
   // const userId = userData?.user?.id;
-  if (!userId) {
+  if (!locals.user) {
     return new Response(
       JSON.stringify({
         error: "User not authenticated",
@@ -17,7 +16,7 @@ export const GET: APIRoute = async ({ url }) => {
   const { data: favoritesData, error: favoritesError } = await supabase
     .from('favorites')
     .select('item_id')
-    .eq('user_id', userId);
+    .eq('user_id', locals.user);
 
   if (favoritesError || !Array.isArray(favoritesData)) {
     return new Response(

@@ -14,14 +14,13 @@ import { supabase } from "../../lib/supabase";
 //     return data;
 // }
 
-export const GET: APIRoute = async ({url}) => {
+export const GET: APIRoute = async ({ locals }) => {
   // const { data : userData } = await supabase.auth.getUser();
   // const userId = userData?.user?.id;
-  const userId = await url.searchParams.get('userId');
   const { data, error } = await supabase
     .from('favorites')
     .select('item_id')
-    .eq('user_id', userId);
+    .eq('user_id', locals.user);
 
   if (error) {
     return new Response(

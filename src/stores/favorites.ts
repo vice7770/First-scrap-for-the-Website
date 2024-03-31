@@ -21,8 +21,8 @@ export const $pendingFavorite = persistentAtom<z.infer<typeof pendingFavoriteRes
 );
 
 export async function initFavorites() {
-    const userId = "96716ef6-712f-4fc2-9de2-60db414fcc81";
-    const res = await fetch(`/api/favorites?userId=${userId}`, {
+    // const userId = "96716ef6-712f-4fc2-9de2-60db414fcc81";
+    const res = await fetch(`/api/favorites`, {
         method: "GET",
     });
     const data = await res.json();

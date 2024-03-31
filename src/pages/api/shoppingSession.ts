@@ -1,9 +1,9 @@
 import type { APIRoute } from "astro";
 import { supabase } from "../../lib/supabase";
 
-export const GET: APIRoute = async () => {
-  const { data : userData } = await supabase.auth.getUser();
-  const userId = userData?.user?.id;
+export const GET: APIRoute = async ({ locals }) => {
+  // const { data : userData } = await supabase.auth.getUser();
+  const userId = locals.user;
   const { data, error } = await supabase
     .from('shopping_session')
     .select('*')

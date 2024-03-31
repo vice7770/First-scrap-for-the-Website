@@ -30,15 +30,16 @@ function cleanCookies(cookies : AstroCookies) {
 
 export const onRequest = defineMiddleware(
   async ({ locals, url, cookies, redirect }, next) => {
-    console.log(url.pathname);
     const accessToken = cookies.get("sb-access-token");
     const refreshToken = cookies.get("sb-refresh-token");
-
+    const { data, error } = await supabase.auth.getUser();
+    if (data && data.user?.id !== undefined ) {
+      locals.user = data.user.id;
+    }
     if (!accessToken || !refreshToken) {
       cleanCookies(cookies);
       // cleanStores($cart);
       // $cart.set(null);
-      console.log("no tokens");
       if (micromatch.isMatch(url.pathname, protectedRoutes)) {
         return redirect("/signin");
       }
