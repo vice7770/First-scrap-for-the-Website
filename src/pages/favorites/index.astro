@@ -9,8 +9,7 @@ import type { ShopData } from '@/utils/schemas';
 // const favorites = (await getCollection('shop')).sort(
 // 	(a, b) => a.data.created_at.valueOf() - b.data.created_at.valueOf()
 // )
-const userId = "96716ef6-712f-4fc2-9de2-60db414fcc81";
-const res = await fetch(SITE_URL + `/api/favoritesFromShop?userId=${userId}`, {
+const res = await fetch(SITE_URL + `/api/favoritesFromShop`, {
 	method: "GET",
 });
 const data : ShopData = await res.json().catch((err) => {
