@@ -9,6 +9,7 @@ import { cld } from "@/consts";
 import { format, quality } from "@cloudinary/url-gen/actions/delivery";
 import { scale } from "@cloudinary/url-gen/actions/resize";
 import { auto } from "@cloudinary/url-gen/qualifiers/format";
+import { $userSession } from "@/stores/user";
 
 function FavoritesList({favorites}: {favorites: ShopData}) {
     const urlImages = favorites?.map((favorite) => {
@@ -36,20 +37,25 @@ function FavoritesList({favorites}: {favorites: ShopData}) {
 function PostList() {
     const [isLoading, setIsLoading] = useState(true);
     const [favorites, setFavorites] = useState<ShopData | null>(null);
+    const userSession = useStore($userSession);
     useEffect(() => {
         setIsLoading(false);
-        const getFavoritesShopFromServer = async () => {
-            const response = await fetch("/api/favoritesFromShop");
-            const data: ShopData = await response.json();
-            console.log(data);
-            $isFavoritesFetched.set(true);
-            setFavorites(data);
-        };
-
-        getFavoritesShopFromServer();
+        
     }, []);
     useEffect(() => {
-    }, [favorites]);
+        console.log("userSession",userSession);
+        if(userSession) {
+            const getFavoritesShopFromServer = async () => {
+                const response = await fetch("/api/favoritesFromShop");
+                const data: ShopData = await response.json();
+                console.log(data);
+                $isFavoritesFetched.set(true);
+                setFavorites(data);
+            };
+    
+            getFavoritesShopFromServer();
+        }
+    }, [userSession]);
     if (isLoading) {
         return (
             <Skeleton />
