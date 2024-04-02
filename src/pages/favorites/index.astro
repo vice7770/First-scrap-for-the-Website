@@ -5,7 +5,6 @@ import { getCollection } from 'astro:content';
 import FavoritesList from '@/components/FavoritesListAstro.astro';
 import { SITE_URL } from '@/consts';
 import type { ShopData } from '@/utils/schemas';
-import PostListAstro from '@/components/PostListAstro.astro';
 
 // const favorites = (await getCollection('shop')).sort(
 // 	(a, b) => a.data.created_at.valueOf() - b.data.created_at.valueOf()
@@ -42,8 +41,8 @@ const data : ShopData = await res.json().catch((err) => {
 			<div class="flex content-center justify-center">
 				<h2 >Favorites</h2>
 			</div>
-			<PostListAstro posts={data} />
-			<!-- <FavoritesList favorites={data} /> -->
+			<!-- <PostListAstro posts={favoritePosts} /> -->
+			<FavoritesList favorites={data} />
 		</section>
 	</main>	
 </Layout>
