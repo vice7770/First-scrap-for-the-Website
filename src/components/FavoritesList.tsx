@@ -35,12 +35,12 @@ function FavoritesList({favorites}: {favorites: ShopData}) {
 
 function PostList({favorites}: {favorites: ShopData}) {
     // const [isLoading, setIsLoading] = useState(true);
-    const favoriteIds = useStore($favorites);
+    // const favoriteIds = useStore($favorites);
     useEffect(() => {
         // setIsLoading(false);
     }, []);
     return (
-        favoriteIds && favoriteIds.length > 0 ? <FavoritesList favorites={favorites} /> : <p className="flex items-center justify-center text-6xl w-full min-h-96">No items</p>
+        favorites && favorites.length > 0 ? <FavoritesList favorites={favorites} /> : <p className="flex items-center justify-center text-6xl w-full min-h-96">No items</p>
     )
 }
 
