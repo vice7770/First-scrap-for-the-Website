@@ -34,7 +34,7 @@ function FavoritesList({favorites}: {favorites: ShopData}) {
     )
 }
 
-function PostList() {
+function PostList(user: any) {
     const [isLoading, setIsLoading] = useState(true);
     const [favorites, setFavorites] = useState<ShopData | null>(null);
     const userSession = useStore($userSession);
@@ -43,7 +43,7 @@ function PostList() {
         
     }, []);
     useEffect(() => {
-        console.log("userSession",userSession);
+        console.log("userSession",userSession, user.user);
         if(userSession) {
             const getFavoritesShopFromServer = async () => {
                 const response = await fetch("/api/favoritesFromShop");

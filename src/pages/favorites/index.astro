@@ -42,7 +42,7 @@ import type { ShopData } from '@/utils/schemas';
 				<h2 >Favorites</h2>
 			</div>
 			<!-- <PostListAstro posts={favoritePosts} /> -->
-			<FavoritesList client:load/>
+			<FavoritesList client:load user={Astro.locals.user}/>
 		</section>
 	</main>	
 </Layout>
