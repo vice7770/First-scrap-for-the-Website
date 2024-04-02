@@ -9,13 +9,13 @@ import type { ShopData } from '@/utils/schemas';
 // const favorites = (await getCollection('shop')).sort(
 // 	(a, b) => a.data.created_at.valueOf() - b.data.created_at.valueOf()
 // )
-const res = await fetch(SITE_URL + `/api/favoritesFromShop`, {
-	method: "GET",
-});
-const data : ShopData = await res.json().catch((err) => {
-	console.error(err);
-	return [];
-});
+// const res = await fetch(SITE_URL + `/api/favoritesFromShop`, {
+// 	method: "GET",
+// });
+// const data : ShopData = await res.json().catch((err) => {
+// 	console.error(err);
+// 	return [];
+// });
 
 // export async function getStaticPaths() {
 // 	const res = await fetch(SITE_URL + "/api/favoritesFromShop", {
@@ -42,7 +42,7 @@ const data : ShopData = await res.json().catch((err) => {
 				<h2 >Favorites</h2>
 			</div>
 			<!-- <PostListAstro posts={favoritePosts} /> -->
-			<FavoritesList favorites={data} />
+			<FavoritesList client:load/>
 		</section>
 	</main>	
 </Layout>

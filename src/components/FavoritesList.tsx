@@ -33,14 +33,30 @@ function FavoritesList({favorites}: {favorites: ShopData}) {
     )
 }
 
-function PostList({favorites}: {favorites: ShopData}) {
-    // const [isLoading, setIsLoading] = useState(true);
-    // const favoriteIds = useStore($favorites);
+function PostList() {
+    const [isLoading, setIsLoading] = useState(true);
+    const [favorites, setFavorites] = useState<ShopData | null>(null);
     useEffect(() => {
-        // setIsLoading(false);
+        setIsLoading(false);
+        const getFavoritesShopFromServer = async () => {
+            const response = await fetch("/api/favoritesFromShop");
+            const data: ShopData = await response.json();
+            console.log(data);
+            $isFavoritesFetched.set(true);
+            setFavorites(data);
+        };
+
+        getFavoritesShopFromServer();
     }, []);
+    useEffect(() => {
+    }, [favorites]);
+    if (isLoading) {
+        return (
+            <Skeleton />
+        )
+    }
     return (
-        favorites && favorites.length > 0 ? <FavoritesList favorites={favorites} /> : <p className="flex items-center justify-center text-6xl w-full min-h-96">No items</p>
+        favorites && favorites?.length > 0 ? <FavoritesList favorites={favorites} /> : <p className="flex items-center justify-center text-6xl w-full min-h-96">No items</p>
     )
 }
 
