@@ -56,5 +56,14 @@ export const POST: APIRoute = async ({ request, cookies, redirect }) => {
     secure: true,
   });
 
+  const { error: errorSetsession } = await supabase.auth.setSession({
+    refresh_token: refresh_token,
+    access_token: access_token,
+  });
+
+  if (errorSetsession) {
+    return redirect("/signin");
+  }
+
   return redirect(redirectUrl || "/");
 };
