@@ -47,23 +47,23 @@ export const POST: APIRoute = async ({ request, cookies, redirect }) => {
   const { access_token, refresh_token } = data.session;
   cookies.set("sb-access-token", access_token, {
     sameSite: "strict",
-    path: "/",
+    path: redirectUrl || "/",
     secure: true,
   });
   cookies.set("sb-refresh-token", refresh_token, {
     sameSite: "strict",
-    path: "/",
+    path: redirectUrl || "/",
     secure: true,
   });
 
-  const { error: errorSetsession } = await supabase.auth.setSession({
-    refresh_token: refresh_token,
-    access_token: access_token,
-  });
+  // const { error: errorSetsession } = await supabase.auth.setSession({
+  //   refresh_token: refresh_token,
+  //   access_token: access_token,
+  // });
 
-  if (errorSetsession) {
-    return redirect("/signin");
-  }
+  // if (errorSetsession) {
+  //   return redirect("/signin");
+  // }
 
   return redirect(redirectUrl || "/");
 };
