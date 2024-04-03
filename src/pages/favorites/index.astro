@@ -5,6 +5,7 @@ import { getCollection } from 'astro:content';
 import FavoritesList from '@/components/FavoritesList';
 import { SITE_URL } from '@/consts';
 import type { ShopData } from '@/utils/schemas';
+import { supabase } from '@/lib/supabase';
 
 // const favorites = (await getCollection('shop')).sort(
 // 	(a, b) => a.data.created_at.valueOf() - b.data.created_at.valueOf()
@@ -30,6 +31,13 @@ import type { ShopData } from '@/utils/schemas';
 // 	});
 // }
 
+const { url, redirect } = Astro;
+
+const session = await supabase.auth.getSession();
+
+if(url.href.includes("favorites") && !session.data.session){
+	return redirect("/signin")
+}
 ---
 
 <Layout
