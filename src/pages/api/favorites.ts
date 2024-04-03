@@ -15,10 +15,10 @@ import { supabase } from "../../lib/supabase";
 // }
 
 export const GET: APIRoute = async ({ locals }) => {
-  // const { data : userData } = await supabase.auth.getUser();
-  // const userId = userData?.user?.id;
-  const { data: userData } = await supabase.auth.getSession();
-  const userId = userData?.session?.user?.id;
+  const { data : userData } = await supabase.auth.getUser();
+  const userId = userData?.user?.id;
+  // const { data: userData } = await supabase.auth.getSession();
+  // const userId = userData?.session?.user?.id;
   // const userId = locals.user;
   if (!userId) {
     console.log(userId)
@@ -32,7 +32,7 @@ export const GET: APIRoute = async ({ locals }) => {
   const { data, error } = await supabase
     .from('favorites')
     .select('item_id')
-    .eq('user_id', locals.user);
+    .eq('user_id', userId);
 
   if (error) {
     return new Response(
@@ -42,7 +42,6 @@ export const GET: APIRoute = async ({ locals }) => {
       { status: 500 },
     );
   }
-
   return new Response(JSON.stringify(data));
 }
 
