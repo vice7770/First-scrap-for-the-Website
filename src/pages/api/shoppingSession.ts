@@ -5,6 +5,15 @@ export const GET: APIRoute = async ({ locals }) => {
   const { data : userData } = await supabase.auth.getUser();
   // const userId = locals.user;
   const userId = userData?.user?.id;
+  if (!userId) {
+    console.log(userId)
+    return new Response(
+      JSON.stringify({
+        error: "User not authenticated",
+      }),
+      { status: 401 },
+    );
+  }
   const { data, error } = await supabase
     .from('shopping_session')
     .select('*')
