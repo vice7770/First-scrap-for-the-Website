@@ -5,16 +5,16 @@ export const GET: APIRoute = async ({ locals }) => {
   const { data: userData } = await supabase.auth.getSession();
   const userId = userData?.session?.user?.id;
   // const userId = locals.user;
-  if (!userId) {
-    console.log(userId)
-    return new Response(
-      JSON.stringify({
-        error: "User not authenticated",
-        data: null,
-      }),
-      { status: 401 },
-    );
-  }
+  // if (!userId) {
+  //   console.log(userId)
+  //   return new Response(
+  //     JSON.stringify({
+  //       error: "User not authenticated",
+  //       data: null,
+  //     }),
+  //     { status: 401 },
+  //   );
+  // }
   const { data: favoritesData, error: favoritesError } = await supabase
     .from('favorites')
     .select('item_id')
