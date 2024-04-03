@@ -9,7 +9,7 @@ import { supabase } from "../lib/supabase";
 import PartnersSection from "@/components/PartnersSection";
 import type { ShopData } from "@/utils/schemas";
 
-const { cookies, redirect } = Astro;
+const { cookies, redirect, locals } = Astro;
 
 const accessToken = cookies.get("sb-access-token");
 const refreshToken = cookies.get("sb-refresh-token");
@@ -22,6 +22,10 @@ const { data } = await supabase.auth.setSession({
   refresh_token: refreshToken?.value ?? "",
   access_token: accessToken?.value ?? "",
 });
+
+if (data && data.session?.user.id !== undefined ) {
+  locals.user = data.session?.user.id;
+}
 
 // if (error) {
 //   cookies.delete("sb-access-token", {
