@@ -46,41 +46,50 @@ function PostList(user: any) {
     // }, [favorites]);
     useEffect(() => {
         setIsLoading(false);
-  if(userSession && !isFavoritesFromShopFetched) {
-    const getFavoritesShopFromServer = async () => {
-      let attempts = 0;
-      let data;
-      let error;
+        if(userSession && !isFavoritesFromShopFetched) {
+            const getFavoritesShopFromServer = async () => {
+            let attempts = 0;
+            let data;
+            let error;
 
-      while (attempts < 3) {
-        try {
-          const response = await fetch("/api/favoritesFromShop");
-          const result = await response.json();
-          data = result.data;
-          error = result.error;
+            while (attempts < 3) {
+                try {
+                    const response: Response = await new Promise((resolve, reject) => {
+                        setTimeout(async () => {
+                          try {
+                            const res = await fetch("/api/favoritesFromShop");
+                            resolve(res);
+                          } catch (err) {
+                            reject(err);
+                          }
+                        }, 1000); // Delay each fetch by 1 second
+                    });
+                const result = await response.json();
+                data = result.data;
+                error = result.error;
 
-          if (!error) {
-            break; // If the fetch is successful, break the loop
-          }
-        } catch (err) {
-          console.error(err);
-          error = err;
+                if (!error) {
+                    break; // If the fetch is successful, break the loop
+                }
+                } catch (err) {
+                console.error(err);
+                error = err;
+                }
+
+                attempts++;
+            }
+
+            if (error) {
+                console.log(error);
+                return null;
+            }
+
+            setFavoritesFromShop(data as ShopData);
+            $isFavoritesFromShopFetched.set(true);
+            }
+
+            getFavoritesShopFromServer();
         }
-
-        attempts++;
-      }
-
-      if (error) {
-        console.log(error);
-        return null;
-      }
-
-      setFavoritesFromShop(data as ShopData);
-      $isFavoritesFromShopFetched.set(true);
-    }
-
-    getFavoritesShopFromServer();
-  }
     }, []);
     if (isLoading) {
         return (
