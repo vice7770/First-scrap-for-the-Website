@@ -4,14 +4,11 @@ import type { TokenExtended } from "@/stores/user";
 import { jwtDecode } from "jwt-decode";
 
 export const GET: APIRoute = async ({ locals, cookies }) => {
-  const { data : userData } = await supabase.auth.getUser();
-  // const accessToken = cookies.get("sb-access-token");
-  // if(accessToken){
-  //   const decodedToken : TokenExtended = jwtDecode(accessToken as string);
-  //   console.log("accessToken", decodedToken.sub)
-  // }
+  // const { data : userData } = await supabase.auth.getUser();
+  const accessToken = cookies.get("sb-access-token");
+  const decodedToken : TokenExtended = jwtDecode(accessToken?.value as string);  
   // const userId = locals.user;
-  const userId = userData?.user?.id;
+  const userId = decodedToken.sub;
   // const userId = decodedToken.;
   // if (!userId) {
   //   console.log(userId)

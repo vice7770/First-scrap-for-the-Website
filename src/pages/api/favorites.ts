@@ -1,5 +1,7 @@
 import type { APIRoute } from "astro";
 import { supabase } from "../../lib/supabase";
+import type { TokenExtended } from "@/stores/user";
+import { jwtDecode } from "jwt-decode";
 
 // export async function addFavorite(id: number) {
 //     const { data, error } = await supabase
@@ -14,12 +16,15 @@ import { supabase } from "../../lib/supabase";
 //     return data;
 // }
 
-export const GET: APIRoute = async ({ locals }) => {
-  const { data : userData } = await supabase.auth.getUser();
-  const userId = userData?.user?.id;
+export const GET: APIRoute = async ({ locals, cookies }) => {
+  // const { data : userData } = await supabase.auth.getUser();
+  // const userId = userData?.user?.id;
+  const accessToken = cookies.get("sb-access-token");
+  const decodedToken : TokenExtended = jwtDecode(accessToken?.value as string);  
   // const { data: userData } = await supabase.auth.getSession();
   // const userId = userData?.session?.user?.id;
   // const userId = locals.user;
+  const userId = decodedToken.sub;
   // if (!userId) {
   //   console.log(userId)
   //   return new Response(
