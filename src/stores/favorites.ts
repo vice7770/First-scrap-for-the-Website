@@ -1,6 +1,7 @@
 import type { z } from "zod";
 import { persistentAtom } from "@nanostores/persistent";
 import type { favoritesResult, pendingFavoriteResult } from "@/utils/schemas";
+import { $isFavoritesFromShopFetched } from "./isDataFetched";
 // Favorites store with persistent state (local storage) and initial value
 export const $favorites = persistentAtom<z.infer<typeof favoritesResult>>(
     "favorites",
@@ -58,3 +59,7 @@ export async function addPendingFavorite(id: number) {
 export async function cleanPendingFavorite() {
     $pendingFavorite.set(null);
 }
+
+$favorites.listen(() => {
+    $isFavoritesFromShopFetched.set(false);
+});

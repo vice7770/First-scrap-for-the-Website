@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Skeleton } from "./ui/skeleton";
 import { $favorites } from "@/stores/favorites";
 import { useStore } from "@nanostores/react";
-import { $isFavoritesFetched } from "@/stores/isDataFetched";
+import { $isFavoritesFetched, $isFavoritesFromShopFetched } from "@/stores/isDataFetched";
 import type { ShopData } from "@/utils/schemas";
 
 import { cld } from "@/consts";
@@ -10,6 +10,7 @@ import { format, quality } from "@cloudinary/url-gen/actions/delivery";
 import { scale } from "@cloudinary/url-gen/actions/resize";
 import { auto } from "@cloudinary/url-gen/qualifiers/format";
 import { $userSession } from "@/stores/user";
+import { $favoritesFromShop, setFavoritesFromShop } from "@/stores/FavoritesFromShop";
 
 function FavoritesList({favorites}: {favorites: ShopData}) {
     const urlImages = favorites?.map((favorite) => {
@@ -36,18 +37,22 @@ function FavoritesList({favorites}: {favorites: ShopData}) {
 
 function PostList(user: any) {
     const [isLoading, setIsLoading] = useState(true);
-    const [favorites, setFavorites] = useState<ShopData | null>(null);
+    // const [favorites, setFavorites] = useState<ShopData | null>(null);
     const userSession = useStore($userSession);
+    const favoritesFromShop = useStore($favoritesFromShop);
+    const isFavoritesFromShopFetched = useStore($isFavoritesFromShopFetched);
+    // useEffect(() => {
+        
+    // }, [favorites]);
     useEffect(() => {
         setIsLoading(false);
-        if(userSession) {
+        if(userSession && !isFavoritesFromShopFetched) {
             const getFavoritesShopFromServer = async () => {
                 const response = await fetch("/api/favoritesFromShop");
                 const data: ShopData = await response.json();
-                $isFavoritesFetched.set(true);
-                setFavorites(data);
-            };
-    
+                setFavoritesFromShop(data);
+                $isFavoritesFromShopFetched.set(true);
+            }
             getFavoritesShopFromServer();
         }
     }, []);
@@ -57,7 +62,7 @@ function PostList(user: any) {
         )
     }
     return (
-        favorites && favorites?.length > 0 ? <FavoritesList favorites={favorites} /> : <p className="flex items-center justify-center text-6xl w-full min-h-96">No items</p>
+        favoritesFromShop && favoritesFromShop?.length > 0 ? <FavoritesList favorites={favoritesFromShop} /> : <p className="flex items-center justify-center text-6xl w-full min-h-96">No items</p>
     )
 }
 
