@@ -2,7 +2,7 @@
 import Layout from '../../layouts/MainLayout.astro';
 
 import { getCollection } from 'astro:content';
-import FavoritesList from '@/components/FavoritesList';
+import FavoritesList from '@/components/FavoritesListAstro.astro';
 import { SITE_URL } from '@/consts';
 import type { ShopData } from '@/utils/schemas';
 import { supabase } from '@/lib/supabase';
@@ -10,13 +10,13 @@ import { supabase } from '@/lib/supabase';
 // const favorites = (await getCollection('shop')).sort(
 // 	(a, b) => a.data.created_at.valueOf() - b.data.created_at.valueOf()
 // )
-// const res = await fetch(SITE_URL + `/api/favoritesFromShop`, {
-// 	method: "GET",
-// });
-// const data : ShopData = await res.json().catch((err) => {
-// 	console.error(err);
-// 	return [];
-// });
+const res = await fetch(SITE_URL + `/api/favoritesFromShop`, {
+	method: "GET",
+});
+const { data } = await res.json().catch((err) => {
+	console.error(err);
+	return [];
+});
 
 // export async function getStaticPaths() {
 // 	const res = await fetch(SITE_URL + "/api/favoritesFromShop", {
@@ -38,6 +38,7 @@ const session = await supabase.auth.getSession();
 if(url.href.includes("favorites") && !session.data.session){
 	return redirect("/signin")
 }
+
 ---
 
 <Layout
@@ -49,8 +50,8 @@ if(url.href.includes("favorites") && !session.data.session){
 			<div class="flex content-center justify-center">
 				<h2 >Favorites</h2>
 			</div>
-			<!-- <FavoritesList posts={data} /> -->
-			<FavoritesList client:load user={Astro.locals.user}/>
+			<FavoritesList favorites={data} />
+			<!-- <FavoritesList client:load user={Astro.locals.user}/> -->
 		</section>
 	</main>	
 </Layout>
