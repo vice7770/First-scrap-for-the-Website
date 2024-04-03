@@ -32,7 +32,7 @@ export const onRequest = defineMiddleware(
   async ({ locals, url, cookies, redirect }, next) => {
     const accessToken = cookies.get("sb-access-token");
     const refreshToken = cookies.get("sb-refresh-token");
-    // const { data, error } = await supabase.auth.getSession();
+    const { data, error } = await supabase.auth.getSession();
     // if (data && data.session?.user.id !== undefined ) {
     //   locals.user = data.session?.user.id;
     // }
@@ -46,11 +46,17 @@ export const onRequest = defineMiddleware(
     }
     //this supabase validation makes code to slow on every page load 
     //this need to be better managed
-    // else if(accessToken && refreshToken) {
-    //   const { data, error } = await supabase.auth.setSession({
-    //     refresh_token: refreshToken.value,
-    //     access_token: accessToken.value,
-    //   });
+    else if(accessToken && refreshToken) {
+      if(data === undefined) {
+        const { data, error } = await supabase.auth.setSession({
+          refresh_token: refreshToken.value,
+          access_token: accessToken.value,
+        });
+      if (error) {
+        cleanCookies(cookies);
+        return redirect("/signin");
+      }
+    }
     
     //   if (error) {
     //     cleanCookies(cookies);
@@ -73,7 +79,7 @@ export const onRequest = defineMiddleware(
     // }
     // locals.user = {
     //   email: accessToken.,
-    // };
+    };
     return next();
   },
 );

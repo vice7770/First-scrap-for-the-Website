@@ -31,18 +31,11 @@ const { data } = await res.json().catch((err) => {
 // 	});
 // }
 
-const { url, redirect, cookies } = Astro;
+const { url, redirect } = Astro;
 
+const session = await supabase.auth.getSession();
 
-const accessToken = cookies.get("sb-access-token");
-const refreshToken = cookies.get("sb-refresh-token");
-
-const { data: dataSession } = await supabase.auth.setSession({
-  refresh_token: refreshToken?.value ?? "",
-  access_token: accessToken?.value ?? "",
-});
-
-if(url.href.includes("favorites") && !dataSession.session?.user.id){
+if(url.href.includes("favorites") && !session.data.session){
 	return redirect("/signin")
 }
 
