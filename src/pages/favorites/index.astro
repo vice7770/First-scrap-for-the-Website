@@ -33,11 +33,12 @@ const { data } = await res.json().catch((err) => {
 
 const { url, redirect } = Astro;
 
-const session = await supabase.auth.getSession();
+// const session = await supabase.auth.getSession();
 
-if(url.href.includes("favorites") && !session.data.session){
-	return redirect("/signin")
-}
+// //this needs to be moved to middleware
+// if(url.href.includes("favorites") && !session.data.session){
+// 	return redirect("/signin")
+// }
 
 ---
 

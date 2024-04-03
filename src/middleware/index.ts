@@ -33,7 +33,7 @@ export const onRequest = defineMiddleware(
     const accessToken = cookies.get("sb-access-token");
     const refreshToken = cookies.get("sb-refresh-token");
     const { data, error } = await supabase.auth.getSession();
-    // if (data && data.session?.user.id !== undefined ) {
+    // // if (data && data.session?.user.id !== undefined ) {
     //   locals.user = data.session?.user.id;
     // }
     if (!accessToken || !refreshToken) {

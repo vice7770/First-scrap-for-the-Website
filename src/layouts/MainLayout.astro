@@ -8,18 +8,18 @@ import { supabase } from '@/lib/supabase';
 
 const { title, description } = Astro.props;
 
-const { cookies, redirect, locals } = Astro;
+// const { cookies, redirect, locals } = Astro;
 
-const accessToken = cookies.get("sb-access-token");
-const refreshToken = cookies.get("sb-refresh-token");
+// const accessToken = cookies.get("sb-access-token");
+// const refreshToken = cookies.get("sb-refresh-token");
 
-const { data } = await supabase.auth.setSession({
-  refresh_token: refreshToken?.value ?? "",
-  access_token: accessToken?.value ?? "",
-});
-if (data && data.session?.user.id !== undefined ) {
-  locals.user = data.session?.user.id;
-}
+// const { data } = await supabase.auth.setSession({
+//   refresh_token: refreshToken?.value ?? "",
+//   access_token: accessToken?.value ?? "",
+// });
+// if (data && data.session?.user.id !== undefined ) {
+//   locals.user = data.session?.user.id;
+// }
 
 ---
 
