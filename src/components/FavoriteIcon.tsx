@@ -3,6 +3,7 @@ import { useStore } from "@nanostores/react";
 
 import { $isFavoritesFetched } from "@/stores/isDataFetched";
 import { cleanFavorites, getFavorites } from "@/stores/favorites";
+import { $userSession } from "@/stores/user";
 
 const FavoriteComponent = ({email, favoritesUrl} : {email:string, favoritesUrl:string}) => {
     return (
@@ -23,6 +24,7 @@ const FavoriteIcon = ({email, favoritesUrl} : {email : string, favoritesUrl : st
             return;
         }
         if(!isFetched && email) {
+            console.log($userSession.get());
             getFavorites()
             $isFavoritesFetched.set(true);
         }

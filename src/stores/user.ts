@@ -18,6 +18,7 @@ const noUser = {
   email: "",
   iat: 0,
   exp: 0,
+  sub: "",
 } as UserSession;
 
 export const $userSession = persistentAtom<z.infer<typeof userSession>>(
@@ -39,6 +40,7 @@ onMount($userSession, () => {
         email: decodedToken.email || "",
         iat: decodedToken.iat || 0,
         exp: decodedToken.exp || 0,
+        sub: decodedToken.sub || "",
       }
     );
   }
