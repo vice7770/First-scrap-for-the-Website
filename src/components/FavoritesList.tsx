@@ -40,22 +40,17 @@ function PostList(user: any) {
     const userSession = useStore($userSession);
     useEffect(() => {
         setIsLoading(false);
-        
-    }, []);
-    useEffect(() => {
-        console.log("userSession",userSession, user.user);
         if(userSession) {
             const getFavoritesShopFromServer = async () => {
                 const response = await fetch("/api/favoritesFromShop");
                 const data: ShopData = await response.json();
-                console.log(data);
                 $isFavoritesFetched.set(true);
                 setFavorites(data);
             };
     
             getFavoritesShopFromServer();
         }
-    }, [userSession]);
+    }, []);
     if (isLoading) {
         return (
             <Skeleton />
