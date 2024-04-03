@@ -17,6 +17,18 @@ import { supabase } from "../../lib/supabase";
 export const GET: APIRoute = async ({ locals }) => {
   // const { data : userData } = await supabase.auth.getUser();
   // const userId = userData?.user?.id;
+  const { data: userData } = await supabase.auth.getSession();
+  const userId = userData?.session?.user?.id;
+  // const userId = locals.user;
+  if (!userId) {
+    console.log(userId)
+    return new Response(
+      JSON.stringify({
+        error: "User not authenticated",
+      }),
+      { status: 401 },
+    );
+  }
   const { data, error } = await supabase
     .from('favorites')
     .select('item_id')

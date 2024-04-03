@@ -46,15 +46,41 @@ function PostList(user: any) {
     // }, [favorites]);
     useEffect(() => {
         setIsLoading(false);
-        if(userSession && !isFavoritesFromShopFetched) {
-            const getFavoritesShopFromServer = async () => {
-                const response = await fetch("/api/favoritesFromShop");
-                const data: ShopData = await response.json();
-                setFavoritesFromShop(data);
-                $isFavoritesFromShopFetched.set(true);
-            }
-            getFavoritesShopFromServer();
+  if(userSession && !isFavoritesFromShopFetched) {
+    const getFavoritesShopFromServer = async () => {
+      let attempts = 0;
+      let data;
+      let error;
+
+      while (attempts < 3) {
+        try {
+          const response = await fetch("/api/favoritesFromShop");
+          const result = await response.json();
+          data = result.data;
+          error = result.error;
+
+          if (!error) {
+            break; // If the fetch is successful, break the loop
+          }
+        } catch (err) {
+          console.error(err);
+          error = err;
         }
+
+        attempts++;
+      }
+
+      if (error) {
+        console.log(error);
+        return null;
+      }
+
+      setFavoritesFromShop(data as ShopData);
+      $isFavoritesFromShopFetched.set(true);
+    }
+
+    getFavoritesShopFromServer();
+  }
     }, []);
     if (isLoading) {
         return (
