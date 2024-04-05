@@ -1,5 +1,5 @@
 import { defineMiddleware } from "astro:middleware";
-import { supabase } from "../lib/supabase";
+import { supabase, supabaseSSR } from "../lib/supabase";
 import micromatch from "micromatch";
 import type { Session, User } from "@supabase/supabase-js";
 import type { AstroCookies } from "astro";
@@ -56,6 +56,10 @@ export const onRequest = defineMiddleware(
         cleanCookies(cookies);
         return redirect("/signin");
       }
+      supabaseSSR(cookies).auth.setSession({
+        refresh_token: refreshToken.value,
+        access_token: accessToken.value,
+      });
     }
     
     //   if (error) {
