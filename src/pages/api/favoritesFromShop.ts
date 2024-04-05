@@ -1,9 +1,10 @@
 import type { APIRoute } from "astro";
 import { supabase } from "../../lib/supabase";
 
-export const GET: APIRoute = async ({ locals }) => {
-  const { data: userData } = await supabase.auth.getSession();
-  const userId = userData?.session?.user?.id;
+export const GET: APIRoute = async ({ locals, cookies, url }) => {
+  const test = await url.searchParams.get('userId');
+  // const { data: userData } = await supabaseSSR(cookies).auth.getSession();
+  const userId = test;;
   // const userId = locals.user;
   // if (!userId) {
   //   console.log(userId)

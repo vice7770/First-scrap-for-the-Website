@@ -6,11 +6,16 @@ import FavoritesList from '@/components/FavoritesListAstro.astro';
 import { SITE_URL } from '@/consts';
 import type { ShopData } from '@/utils/schemas';
 import { supabase } from '@/lib/supabase';
+import type { TokenExtended } from '@/stores/user';
+import { jwtDecode } from 'jwt-decode';
 
 // const favorites = (await getCollection('shop')).sort(
 // 	(a, b) => a.data.created_at.valueOf() - b.data.created_at.valueOf()
 // )
-const res = await fetch(SITE_URL + `/api/favoritesFromShop`, {
+
+const cookie = Astro.cookies.get("sb-access-token");
+const decodedToken : TokenExtended = jwtDecode(cookie?.value as unknown as string);
+const res = await fetch(SITE_URL + `/api/favoritesFromShop?userId=${decodedToken.sub}`, {
 	method: "GET",
 });
 const { data } = await res.json().catch((err) => {
