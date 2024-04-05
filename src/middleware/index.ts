@@ -56,9 +56,19 @@ export const onRequest = defineMiddleware(
         cleanCookies(cookies);
         return redirect("/signin");
       }
-      supabaseSSR(cookies).auth.setSession({
-        refresh_token: refreshToken.value,
-        access_token: accessToken.value,
+      // supabaseSSR(cookies).auth.setSession({
+      //   refresh_token: refreshToken.value,
+      //   access_token: accessToken.value,
+      // });
+      cookies.set("sb-access-token", data?.session?.access_token!, {
+        sameSite: "strict",
+        path: "/",
+        secure: true,
+      });
+      cookies.set("sb-refresh-token", data?.session?.refresh_token!, {
+        sameSite: "strict",
+        path: "/",
+        secure: true,
       });
     }
     
@@ -70,16 +80,7 @@ export const onRequest = defineMiddleware(
 
     //   // locals.user.email = data?.user?.email || "";
     //   // console.log("user email", data?.user?.email, locals);
-    //   cookies.set("sb-access-token", data?.session?.access_token!, {
-    //     sameSite: "strict",
-    //     path: "/",
-    //     secure: true,
-    //   });
-    //   cookies.set("sb-refresh-token", data?.session?.refresh_token!, {
-    //     sameSite: "strict",
-    //     path: "/",
-    //     secure: true,
-    //   });
+    
     // }
     // locals.user = {
     //   email: accessToken.,
