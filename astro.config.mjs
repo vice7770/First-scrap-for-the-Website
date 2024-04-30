@@ -20,6 +20,9 @@ export default defineConfig({
   adapter: vercel(),
   vite: {
     build: {
+      ssr: {
+        noExternal: ['react-hook-form']
+      },
       rollupOptions: {
         external: ['@/stores/partnerSelected']
       }
@@ -28,7 +31,7 @@ export default defineConfig({
       alias: {
         '@': '/src'
       }
-    }
+    },
   },
 });
 

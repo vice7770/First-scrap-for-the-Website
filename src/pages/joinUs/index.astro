@@ -1,0 +1,38 @@
+---
+import FollowForm from '@/components/FollowForm.astro';
+import Layout from '../../layouts/MainLayout.astro';
+import PartnerForm from '@/components/PartnerForm';
+// const session = await supabase.auth.getSession();
+
+// //this needs to be moved to middleware
+// if(url.href.includes("favorites") && !session.data.session){
+// 	return redirect("/signin")
+// }
+
+---
+
+<Layout
+    title="Shop"
+    description="Lorem ipsum dolor sit amet"
+>
+    <main class="flex-grow">
+        <div class="flex h-full p-6" style={{ width: "100%", height: "var(--hero-image-header)"}}>
+            <div class="flex flex-col h-full w-1/2 p-6 border-r border-black" style={{ borderRight: "1px solid black !important" }}>
+                <div class="w-full mt-10">
+                    <h1 class="flex text-4xl font-bold items-center justify-center">Follow us for more news</h1>
+                </div>
+                <div class="flex w-full h-2/3 overflow-auto p-6 ">
+                    <FollowForm />
+                </div>
+            </div>
+            <div class="flex flex-col h-full w-1/2 p-6">
+                <div class="w-full  m-10">
+                    <h1 class="flex text-4xl font-bold items-center justify-center">Become a Partner</h1>
+                </div>
+                <div class="flex w-full h-full p-6">
+                    <PartnerForm client:load />
+                </div>
+            </div>
+        </div>
+    </main>	
+</Layout>
