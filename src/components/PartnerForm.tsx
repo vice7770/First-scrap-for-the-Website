@@ -62,7 +62,7 @@ const defaultValues: Partial<ProfileFormValues> = {
 }
 
 export default function PartnerForm() {
-    const [isHydrating, setIsHydrating] = useState(true)
+    // const [isHydrating, setIsHydrating] = useState(true)
     const form = useForm<ProfileFormValues>({
         resolver: zodResolver(profileFormSchema),
         defaultValues,
@@ -85,21 +85,21 @@ export default function PartnerForm() {
         });  
     }
 
-    useEffect(() => {
-        setIsHydrating(false);
-        // if(!isAuth){
-        //     // cleanCart();
-        // }
-        // else {
-        //     getFavorites();
-        // }
-    }, []);
+    // useEffect(() => {
+    //     setIsHydrating(false);
+    //     // if(!isAuth){
+    //     //     // cleanCart();
+    //     // }
+    //     // else {
+    //     //     getFavorites();
+    //     // }
+    // }, []);
 
-    if (isHydrating) {
-        return (
-            <div>Loading...</div>
-        )
-    }
+    // if (isHydrating) {
+    //     return (
+    //         <div>Loading...</div>
+    //     )
+    // }
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
