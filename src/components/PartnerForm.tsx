@@ -5,7 +5,7 @@ import { useFieldArray, useForm } from "react-hook-form"
 import { z } from "zod"
 
 import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
+import { Button } from "../components/ui/button"
 import {
   Form,
   FormControl,
@@ -14,8 +14,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
+} from "../components/ui/form"
+import { Input } from "../components/ui/input"
 import {
     Select,
     SelectContent,
@@ -24,7 +24,7 @@ import {
     SelectValue,
 } from "@/components/ui/select"
   
-import { Textarea } from "@/components/ui/textarea"
+import { Textarea } from "../components/ui/textarea"
 
 const profileFormSchema = z.object({
     username: z
@@ -184,8 +184,8 @@ export default function PartnerForm() {
                     size="sm"
                     className="mt-2"
                     onClick={() => {{
-                            fields.length < 4 &&
-                            append({ value: "" });
+                        fields.length < 4 &&
+                        append({ value: "" });
                         }
                     }}
                     >
