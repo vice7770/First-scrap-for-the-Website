@@ -40,6 +40,7 @@ export const userSession = z.object({
   email: z.string().email(),
   iat: z.number(),
   exp: z.number(),
+  sub: z.string(),
 }).nullable();
 
 export const shopResult = z.array(object({
