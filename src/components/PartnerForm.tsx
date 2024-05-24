@@ -50,7 +50,7 @@ const profileFormSchema = z.object({
       .optional(),
 })
 
-type ProfileFormValues = z.infer<typeof profileFormSchema>
+export type ProfileFormValues = z.infer<typeof profileFormSchema>
 
 // This can come from your database or API.
 const defaultValues: Partial<ProfileFormValues> = {
@@ -74,15 +74,20 @@ export default function PartnerForm() {
         control: form.control,
     })
     
-    function onSubmit(data: ProfileFormValues) {
-        console.log(JSON.stringify(data, null, 2))
-        fetch("/api/partnerPost", {
+    async function onSubmit(data: ProfileFormValues) {
+        const result = await fetch("/api/partnerPost", {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(data),
-        });  
+        });
+        if (result.ok) {
+            window.location.href = "/joinUsRedirect";
+        } else {
+            console.error(`Error: ${result.status}`);
+            // Handle error...
+        }
     }
 
     // useEffect(() => {
@@ -137,9 +142,9 @@ export default function PartnerForm() {
                 )}
                 />
                 <FormField
-                control={form.control}
-                name="bio"
-                render={({ field }) => (
+                    control={form.control}
+                    name="bio"
+                    render={({ field }) => (
                     <FormItem>
                         <FormLabel>Bio</FormLabel>
                         <FormControl>
